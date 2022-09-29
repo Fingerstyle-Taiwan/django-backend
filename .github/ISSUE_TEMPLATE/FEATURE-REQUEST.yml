@@ -1,0 +1,63 @@
+name: "💡 Feature Request"
+description: 為新功能請求建立新的議題
+title: "💡 [REQUEST] - <功能請求標題>"
+labels: [
+  "question"
+]
+body:
+  - type: input
+    id: start_date
+    attributes:
+      label: 開始日期
+      description: 開發的開始日期
+      placeholder: "month/day/year"
+    validations:
+      required: false
+  - type: textarea
+    id: implementation_pr
+    attributes:
+      label: "實現 PR"
+      description: 是目前哪個 Pull request？
+      placeholder: "#Pull Request ID"
+    validations:
+      required: false
+  - type: textarea
+    id: reference_issues
+    attributes:
+      label: "參考議題"
+      description: 參照哪個issue的內容？
+      placeholder: "#Issues IDs"
+    validations:
+      required: false
+  - type: textarea
+    id: summary
+    attributes:
+      label: "摘要"
+      description: 提供功能的簡要說明。
+      placeholder: 用幾行描述您的功能請求
+    validations:
+      required: true
+  - type: textarea
+    id: basic_example
+    attributes:
+      label: "基本範例"
+      description: 在此處說明您的功能的一些基本範例。.
+      placeholder: 關於您的功能的介紹。
+    validations:
+      required: true
+  - type: textarea
+    id: drawbacks
+    attributes:
+      label: 缺點
+      description: 您的功能請求的缺點/影響是什麼？
+      placeholder: 確定缺點和影響，同時對您的功能請求保持中立態度
+    validations:
+      required: true
+  - type: textarea
+    id: unresolved_question
+    attributes:
+      label: 未解決的問題
+      description: 還有哪些問題沒有解決？
+      placeholder: 找出任何未解決的問題
+    validations:
+      required: false

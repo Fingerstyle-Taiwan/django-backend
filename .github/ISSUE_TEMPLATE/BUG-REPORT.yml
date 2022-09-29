@@ -1,0 +1,65 @@
+name: 🐞 Bug
+description: 提交錯誤/問題
+title: "[BUG] <填寫錯誤標題>"
+labels: [bug, Needs Triage]
+body:
+- type: checkboxes
+  id: exist-problem
+  attributes:
+    label: 清單中是否已存在這個問題?
+    description: 請搜尋以查看您遇到的錯誤是否已存在問題。
+    options:
+    - label: 我已經搜尋了現有的問題！
+      required: true
+- type: textarea
+  id: now-behavior
+  attributes:
+    label: 當前的行為
+    description: 簡明扼要地描述您正在經歷的事情。
+  validations:
+    required: false
+- type: textarea
+  id: expect-behavior
+  attributes:
+    label: 預期行為
+    description: 請對您期望發生的事情的簡明描述。
+  validations:
+    required: false
+- type: textarea
+  id: error-step
+  attributes:
+    label: 重現錯誤的步驟
+    description: 描述重現出現錯誤行為的步驟。
+    placeholder: |
+      1. 在某個環境下或頁面...
+      2. 有了這些設定...
+      3. 點擊或執行 '...'
+      4. 看見了這個錯誤...
+  validations:
+    required: false
+- type: textarea
+  id: env
+  attributes:
+    label: 使用環境
+    description: |
+      examples:
+        - **OS**: Ubuntu 20.04
+        - **Node**: 13.14.0
+        - **npm**: 7.6.3
+    value: |
+        - OS:
+        - Node:
+        - npm:
+    render: markdown
+  validations:
+    required: false
+- type: textarea
+  id: information
+  attributes:
+    label: 有什麼要補充的嗎?
+    description: |
+      連結？參考資料？任何可以為我們提供有關您遇到的問題的更多背景訊息的內容！
+
+      提示：您可以添加螢幕截圖或錯誤日誌內容。
+  validations:
+    required: false
