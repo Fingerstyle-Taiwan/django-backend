@@ -12,7 +12,6 @@
 - [Contributing](#contributing)
 - [License](#license)
 - [Get Help](#get-help)
-- [Motivation](#motivation)
 - [Acknowledgments](#acknowledgements)
 
 ## Getting Started
