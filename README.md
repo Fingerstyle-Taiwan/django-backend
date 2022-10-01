@@ -51,6 +51,11 @@ docker-compose run --rm django-app sh -c "django-admin startproject YouProjectNa
 docker-compose run --rm django-app sh -c "django-admin startapp YouAppName"
 ```
 
+- create superuser
+```console
+docker-compose run --rm django-app sh -c "python3 manage.py createsuperuser"
+```
+
 - make migrations
 ```console
 docker-compose run --rm django-app sh -c "python manage.py makemigrations"
