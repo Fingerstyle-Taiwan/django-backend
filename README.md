@@ -43,22 +43,22 @@ See [http://127.0.0.1:8000/api/docs](http://127.0.0.1:8000/api/docs)
 
 - create a django project
 ```console
-docker-compose run --rm app sh -c "django-admin startproject YouProjectName"
+docker-compose run --rm django-app sh -c "django-admin startproject YouProjectName"
 ```
 
 - create a django app
 ```console
-docker-compose run --rm app sh -c "django-admin startapp YouAppName"
+docker-compose run --rm django-app sh -c "django-admin startapp YouAppName"
 ```
 
 - make migrations
 ```console
-docker-compose run --rm app sh -c "python manage.py makemigrations"
+docker-compose run --rm django-app sh -c "python manage.py makemigrations"
 ```
 
 - migrate
 ```console
-docker-compose run --rm app sh -c "python manage.py migrate"
+docker-compose run --rm django-app sh -c "python manage.py migrate"
 ```
 
 ## Built With
