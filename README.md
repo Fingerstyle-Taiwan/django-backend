@@ -75,6 +75,11 @@ make migrations
 
 Docker is a software platform that allows you to quickly build, test, and deploy applications.
 
+
+**[Make](https://www.gnu.org/software/make/)**
+
+Make is a tool which controls the generation of executables and other non-source files of a program from the program's source files.
+
 **[Django](https://www.djangoproject.com/)**
 
 Django is a high-level Python web framework that encourages rapid development and clean, pragmatic design.
