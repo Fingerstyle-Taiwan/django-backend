@@ -1,4 +1,4 @@
-# Fingerstyle Taiwan Backend Project [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Check%20out%20this%20cool%20project&url=https://github.com/Cool/Project&hashtags=project,opensource)
+# Fingerstyle Taiwan Backend Project
 
 ![Github License](https://img.shields.io/badge/license-MIT-green) ![Code Coverage](https://img.shields.io/badge/coverage-10%25-green) ![Django 4](https://img.shields.io/badge/django-4.0.4-blue.svg) ![Python 3.10](https://img.shields.io/badge/python-3.10.7-blue.svg)
 
@@ -17,7 +17,7 @@
 ## Getting Started
 
 ### Clone project
-```
+```console
 git clone https://github.com/Fingerstyle-Taiwan/django-backend.git
 cd django-backend
 ```
@@ -35,6 +35,18 @@ make up
 ```
 
 ## Usage
+
+### Lint and test
+
+- lint
+```console
+make lint
+```
+
+- test
+```console
+make test
+```
 
 ### APIs docs
 See [http://127.0.0.1:8000/api/docs](http://127.0.0.1:8000/api/docs)

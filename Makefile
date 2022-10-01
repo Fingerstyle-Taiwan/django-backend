@@ -15,3 +15,9 @@ create-app:
 
 migrations:
 	@docker-compose run --rm django-app sh -c "python manage.py makemigrations"
+
+test:
+	@docker-compose run --rm django-app sh -c "python manage.py test"
+
+lint:
+	@docker-compose run --rm django-app sh -c "flake8"
