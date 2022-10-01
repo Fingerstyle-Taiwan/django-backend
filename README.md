@@ -24,14 +24,14 @@ cd django-backend
 
 ### Build docker container
 ```
-docker build .
+make build-docker
 ```
 
 ### Start  docker apps (Django and PostgreSQL)
 This command will launch django server and database.
 See [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 ```console
-docker-compose up
+make up
 ```
 
 ## Usage
@@ -41,30 +41,21 @@ See [http://127.0.0.1:8000/api/docs](http://127.0.0.1:8000/api/docs)
 
 ### Django commands
 
-- create a django project
-```console
-docker-compose run --rm django-app sh -c "django-admin startproject YouProjectName"
-```
-
 - create a django app
 ```console
-docker-compose run --rm django-app sh -c "django-admin startapp YouAppName"
+make name=YouAppName create-app"
 ```
 
 - create superuser
 ```console
-docker-compose run --rm django-app sh -c "python3 manage.py createsuperuser"
+make superuser"
 ```
 
 - make migrations
 ```console
-docker-compose run --rm django-app sh -c "python manage.py makemigrations"
+make migrations"
 ```
 
-- migrate
-```console
-docker-compose run --rm django-app sh -c "python manage.py migrate"
-```
 
 ## Built With
 
