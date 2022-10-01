@@ -17,7 +17,7 @@ services:
       - DB_USER=devuser
       - DB_PASSWORD=devuser
     depends_on:
-      - db
+      - postgres-db
 
   postgres-db:
     image: postgres:13-alpine
