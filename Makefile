@@ -7,6 +7,9 @@ build:
 up:
 	@docker-compose up
 
+down:
+	@docker-compose down
+
 superuser:
 	@docker-compose run --rm django-app sh -c "python3 manage.py createsuperuser"
 
