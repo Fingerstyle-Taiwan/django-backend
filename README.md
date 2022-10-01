@@ -23,7 +23,7 @@ cd django-backend
 ```
 
 ### Build docker container
-```
+```console
 make build-docker
 ```
 
@@ -43,17 +43,17 @@ See [http://127.0.0.1:8000/api/docs](http://127.0.0.1:8000/api/docs)
 
 - create a django app
 ```console
-make name=YouAppName create-app"
+make name=YouAppName create-app
 ```
 
 - create superuser
 ```console
-make superuser"
+make superuser
 ```
 
 - make migrations
 ```console
-make migrations"
+make migrations
 ```
 
 
