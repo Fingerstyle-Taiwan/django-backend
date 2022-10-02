@@ -69,6 +69,14 @@ make superuser
 make migrations
 ```
 
+### Git commit
+
+**Please use [commitizen-tools](https://github.com/commitizen-tools/commitizen) to submit your commit message.**
+```console
+cz c
+```
+
+
 
 ## Built With
 
