@@ -23,6 +23,8 @@ services:
 
   postgres-db:
     image: postgres:13-alpine
+    ports:
+     - 5432:5432
     volumes:
       - dev-db-data:/var/lib/postgresql/data
     environment:
