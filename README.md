@@ -1,6 +1,6 @@
 # Fingerstyle Taiwan Backend Project
 
-![Github License](https://img.shields.io/badge/license-MIT-green) ![Code Coverage](https://img.shields.io/badge/coverage-10%25-green) ![Django 4](https://img.shields.io/badge/django-4.0.4-blue.svg) ![Python 3.10](https://img.shields.io/badge/python-3.10.7-blue.svg)
+![Github License](https://img.shields.io/badge/license-MIT-green) ![Code Coverage](https://img.shields.io/badge/coverage-100%25-green) ![Django 4](https://img.shields.io/badge/django-4.0.4-blue.svg) ![Python 3.10](https://img.shields.io/badge/python-3.10.7-blue.svg)
 
 
 #### Fingerstyle Taiwan page backend project, using django and postresql for development.
