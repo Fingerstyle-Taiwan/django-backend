@@ -14,7 +14,7 @@ superuser:
 	@docker-compose run --rm django-app sh -c "python3 manage.py createsuperuser"
 
 create-app:
-	@docker-compose run --rm django-app sh -c "django-admin startapp $(name)
+	@docker-compose run --rm django-app sh -c "django-admin startapp $(NAME)"
 
 migrations:
 	@docker-compose run --rm django-app sh -c "python manage.py makemigrations"
