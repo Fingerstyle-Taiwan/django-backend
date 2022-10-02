@@ -50,6 +50,7 @@ make test
 
 ### APIs docs
 See [http://127.0.0.1:8000/api/docs](http://127.0.0.1:8000/api/docs)
+![APIs docs screenshot](https://i.imgur.com/PnnrX91.png)
 
 ### Django commands
 
