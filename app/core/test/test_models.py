@@ -5,7 +5,6 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 
 
-
 def create_user(email='test@example.com', password='testpass123'):
     ''' Create and return a new user. '''
 
@@ -56,4 +55,3 @@ class ModelTests(TestCase):
 
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
-

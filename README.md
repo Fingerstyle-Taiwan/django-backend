@@ -36,7 +36,7 @@ make up
 
 ## Usage
 
-### Lint and test
+### Lint and test (IMPORTANT:do this before you git push, github actions will auto lint and test)
 
 - lint
 ```console
