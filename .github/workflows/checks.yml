@@ -2,8 +2,7 @@
 name: Checks
 
 on: [push]
-  paths-ignore:
-      - 'README.md'
+
 jobs:
   test-lint:
     name: Test and Lint
