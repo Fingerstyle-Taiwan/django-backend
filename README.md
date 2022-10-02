@@ -55,7 +55,7 @@ See [http://127.0.0.1:8000/api/docs](http://127.0.0.1:8000/api/docs)
 
 - create a django app
 ```console
-make name=YouAppName create-app
+ make create-app NAME=user
 ```
 
 - create superuser
