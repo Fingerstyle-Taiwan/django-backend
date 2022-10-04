@@ -19,6 +19,9 @@ migrations:
 migrate:
 	@docker-compose run --rm django-app sh -c "python manage.py migrate"
 
+migrate-init:
+	@docker-compose run --rm django-app sh -c "python manage.py migrate --fake-initial"
+
 test:
 	@docker-compose run --rm django-app sh -c "python manage.py test"
 

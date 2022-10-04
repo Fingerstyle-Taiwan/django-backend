@@ -1,6 +1,8 @@
 '''
 Database models.
 '''
+
+from time import timezone
 import uuid
 import os
 
@@ -15,6 +17,7 @@ from django_countries.fields import CountryField
 from ckeditor.fields import RichTextField
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from django.utils.timezone import now
 
 
 def avatar_image_file_path(instance, filename):
@@ -57,9 +60,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     '''
 
     email = models.EmailField(max_length=255, unique=True, verbose_name='信箱')
-    name = models.CharField(max_length=255, verbose_name='暱稱')
+    name = models.CharField(max_length=255, verbose_name='暱稱',
+                                unique=True, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    created_at = models.DateTimeField(default=now, editable=False)
 
     objects = UserManager()
 
@@ -70,6 +75,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Profile(models.Model):
+    ''' Profile Model '''
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE
