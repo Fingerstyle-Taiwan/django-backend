@@ -1,8 +1,5 @@
-build-docker:
-	@docker build .
-
 build:
-	@docker-compose build
+	@docker build . && docker-compose build
 
 up:
 	@docker-compose up
@@ -18,6 +15,9 @@ create-app:
 
 migrations:
 	@docker-compose run --rm django-app sh -c "python manage.py makemigrations"
+
+migrate:
+	@docker-compose run --rm django-app sh -c "python manage.py migrate"
 
 test:
 	@docker-compose run --rm django-app sh -c "python manage.py test"
