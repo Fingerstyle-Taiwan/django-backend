@@ -1,6 +1,3 @@
-build-docker:
-	@docker build .
-
 build:
 	@docker build . && docker-compose build
 

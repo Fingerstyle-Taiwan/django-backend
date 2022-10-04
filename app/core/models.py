@@ -57,8 +57,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     User Model
     '''
 
-    email = models.EmailField(max_length=255, unique=True)
-    name = models.CharField(max_length=255)
+    email = models.EmailField(max_length=255, unique=True, verbose_name='信箱')
+    name = models.CharField(max_length=255, verbose_name='暱稱')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
@@ -76,7 +76,8 @@ class Profile(models.Model):
         on_delete=models.CASCADE
     )
     avatar = models.ImageField(null=True, blank=True,
-                               upload_to=avatar_image_file_path)
+                               upload_to=avatar_image_file_path,
+                               verbose_name='頭貼')
     GENDER_CHOICES = (
         ('MALE', '男生'),
         ('FEMALE', '女生'),
@@ -84,12 +85,13 @@ class Profile(models.Model):
     )
     gender = models.CharField(max_length=6,
                               choices=GENDER_CHOICES,
-                              default='其他')
-    bio = models.RichTextField()
-    birthdate = models.DateField(null=True, blank=True)
-    country = CountryField(blank_label='(選擇國家/地區)', default='TW')
-    guitar_brand = models.CharField(max_length=20, null=True, blank=True)
-    guitar_model = models.CharField(max_length=20, null=True, blank=True)
+                              default='OTHER',
+                              verbose_name='性別')
+    bio = RichTextField(null=True, blank=True, verbose_name='簡介')
+    birthdate = models.DateField(null=True, blank=True, verbose_name='生日')
+    country = CountryField(blank_label='(選擇國家/地區)', default='TW', verbose_name='國家/地區')
+    guitar_brand = models.CharField(max_length=20, null=True, blank=True, verbose_name='吉他品牌')
+    guitar_model = models.CharField(max_length=20, null=True, blank=True, verbose_name='吉他型號')
 
     def __str__(self) -> str:
         return self.user.name
