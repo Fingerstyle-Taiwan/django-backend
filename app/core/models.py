@@ -1,7 +1,6 @@
 '''
 Database models.
 '''
-from random import choices
 import uuid
 import os
 
@@ -89,9 +88,12 @@ class Profile(models.Model):
                               verbose_name='性別')
     bio = RichTextField(null=True, blank=True, verbose_name='簡介')
     birthdate = models.DateField(null=True, blank=True, verbose_name='生日')
-    country = CountryField(blank_label='(選擇國家/地區)', default='TW', verbose_name='國家/地區')
-    guitar_brand = models.CharField(max_length=20, null=True, blank=True, verbose_name='吉他品牌')
-    guitar_model = models.CharField(max_length=20, null=True, blank=True, verbose_name='吉他型號')
+    country = CountryField(blank_label='(選擇國家/地區)', default='TW',
+                           verbose_name='國家/地區')
+    guitar_brand = models.CharField(max_length=20, null=True,
+                                    blank=True, verbose_name='吉他品牌')
+    guitar_model = models.CharField(max_length=20, null=True,
+                                    blank=True, verbose_name='吉他型號')
 
     def __str__(self) -> str:
         return self.user.name
