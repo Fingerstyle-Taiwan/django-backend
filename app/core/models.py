@@ -1,8 +1,6 @@
 '''
 Database models.
 '''
-
-from time import timezone
 import uuid
 import os
 
@@ -61,7 +59,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField(max_length=255, unique=True, verbose_name='信箱')
     name = models.CharField(max_length=255, verbose_name='暱稱',
-                                unique=True, null=True)
+                            unique=True, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     created_at = models.DateTimeField(default=now, editable=False)

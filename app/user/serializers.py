@@ -8,6 +8,7 @@ from django.utils.translation import gettext as _
 from rest_framework import serializers
 from core.models import Profile
 
+
 class UserSerializer(serializers.ModelSerializer):
     ''' Serializer for user object. '''
 
@@ -60,6 +61,7 @@ class AuthTokenSerializer(serializers.Serializer):
         attrs['user'] = user
 
         return attrs
+
 
 class ProfileSerializer(serializers.ModelSerializer):
     ''' Serializer for profile object. '''
