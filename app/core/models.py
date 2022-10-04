@@ -1,6 +1,7 @@
 '''
 Database models.
 '''
+from random import choices
 import uuid
 import os
 
@@ -12,6 +13,7 @@ from django.contrib.auth.models import (
     PermissionsMixin
 )
 from django_countries.fields import CountryField
+from ckeditor.fields import RichTextField
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 
@@ -75,6 +77,15 @@ class Profile(models.Model):
     )
     avatar = models.ImageField(null=True, blank=True,
                                upload_to=avatar_image_file_path)
+    GENDER_CHOICES = (
+        ('MALE', '男生'),
+        ('FEMALE', '女生'),
+        ('OTHER', '其他')
+    )
+    gender = models.CharField(max_length=6,
+                              choices=GENDER_CHOICES,
+                              default='其他')
+    bio = models.RichTextField()
     birthdate = models.DateField(null=True, blank=True)
     country = CountryField(blank_label='(選擇國家/地區)', default='TW')
     guitar_brand = models.CharField(max_length=20, null=True, blank=True)
