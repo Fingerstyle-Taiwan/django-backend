@@ -15,7 +15,8 @@ from django_countries.fields import CountryField
 from ckeditor.fields import RichTextField
 from django.dispatch import receiver
 from django.db.models.signals import post_save
-from django.utils.timezone import now
+from django.utils.translation import gettext_lazy as _
+
 
 
 def avatar_image_file_path(instance, filename):
@@ -62,7 +63,6 @@ class User(AbstractBaseUser, PermissionsMixin):
                             unique=True, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    created_at = models.DateTimeField(default=now, editable=False)
 
     objects = UserManager()
 
@@ -71,20 +71,27 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self) -> str:
         return self.name
 
+    class Meta:
+        ordering = ['-id']
+        verbose_name = "用戶"
+        verbose_name_plural = verbose_name
+        get_latest_by = 'id'
+
 
 class Profile(models.Model):
     ''' Profile Model '''
     user = models.OneToOneField(
         User,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='profile'
     )
     avatar = models.ImageField(null=True, blank=True,
                                upload_to=avatar_image_file_path,
                                verbose_name='頭貼')
     GENDER_CHOICES = (
-        ('MALE', '男生'),
-        ('FEMALE', '女生'),
-        ('OTHER', '其他')
+        ('MALE', _('男生')),
+        ('FEMALE', _('女生')),
+        ('OTHER', _('其他'))
     )
     gender = models.CharField(max_length=6,
                               choices=GENDER_CHOICES,
@@ -102,11 +109,12 @@ class Profile(models.Model):
     def __str__(self) -> str:
         return self.user.name
 
-    @receiver(post_save, sender=settings.AUTH_USER_MODEL)
+    @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
         if created:
             Profile.objects.create(user=instance)
 
-    @receiver(post_save, sender=settings.AUTH_USER_MODEL)
+    @receiver(post_save, sender=User)
     def save_user_profile(sender, instance, **kwargs):
         instance.profile.save()
+
