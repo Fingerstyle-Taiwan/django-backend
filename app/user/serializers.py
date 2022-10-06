@@ -4,7 +4,6 @@ Serializers for user API View.
 
 
 from django.contrib.auth import (get_user_model, authenticate)
-from django.contrib.auth.models import Group
 from django.utils.translation import gettext as _
 from rest_framework import serializers
 from core.models import Profile
@@ -14,13 +13,15 @@ class ProfileSerializer(serializers.ModelSerializer):
     ''' Serializer for profile object. '''
     class Meta:
         model = Profile
-        fields = ['avatar', 'gender', 'birthdate', 'country', 'bio', 'guitar_brand', 'guitar_model']
+        fields = ['avatar', 'gender', 'birthdate', 'country',
+                  'bio', 'guitar_brand', 'guitar_model']
         read_only_fields = ['id', 'user']
 
 
 class UserSerializer(serializers.ModelSerializer):
     ''' Serializer for user object. '''
-    profile = ProfileSerializer(required=True)
+    profile = ProfileSerializer(required=False)
+
     class Meta:
         model = get_user_model()
         fields = ['email', 'password', 'name', 'profile']
@@ -43,6 +44,7 @@ class UserSerializer(serializers.ModelSerializer):
         if password:
             user.set_password(password)
             user.save()
+
         return user
 
 
@@ -71,11 +73,3 @@ class AuthTokenSerializer(serializers.Serializer):
         attrs['user'] = user
 
         return attrs
-
-
-class ProfileSerializer(serializers.ModelSerializer):
-    ''' Serializer for profile object. '''
-
-    class Meta:
-        model = Profile
-        read_only_fields = ['user']

@@ -5,18 +5,17 @@ import uuid
 import os
 
 from django.db import models
-from django.conf import settings
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
     PermissionsMixin
 )
+from django.conf import settings
 from django_countries.fields import CountryField
 from ckeditor.fields import RichTextField
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.utils.translation import gettext_lazy as _
-
 
 
 def avatar_image_file_path(instance, filename):
@@ -57,10 +56,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     '''
     User Model
     '''
-
     email = models.EmailField(max_length=255, unique=True, verbose_name='信箱')
-    name = models.CharField(max_length=255, verbose_name='暱稱',
-                            unique=True, null=True)
+    name = models.CharField(max_length=255, verbose_name='暱稱')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
@@ -81,7 +78,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Profile(models.Model):
     ''' Profile Model '''
     user = models.OneToOneField(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='profile'
     )
@@ -109,12 +106,11 @@ class Profile(models.Model):
     def __str__(self) -> str:
         return self.user.name
 
-    @receiver(post_save, sender=User)
+    @receiver(post_save, sender=settings.AUTH_USER_MODEL)
     def create_user_profile(sender, instance, created, **kwargs):
         if created:
             Profile.objects.create(user=instance)
 
-    @receiver(post_save, sender=User)
+    @receiver(post_save, sender=settings.AUTH_USER_MODEL)
     def save_user_profile(sender, instance, **kwargs):
         instance.profile.save()
-
