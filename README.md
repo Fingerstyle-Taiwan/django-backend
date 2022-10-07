@@ -29,7 +29,7 @@ make build
 
 ### Start docker apps (Django and PostgreSQL)
 This command will launch django server and database.
-See [http://127.0.0.1:8000/](http://127.0.0.1:8000/admin)
+See [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin)
 ```console
 make up
 ```
