@@ -5,16 +5,17 @@ import uuid
 import os
 
 from django.db import models
-from django.conf import settings
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
     PermissionsMixin
 )
+from django.conf import settings
 from django_countries.fields import CountryField
 from ckeditor.fields import RichTextField
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from django.utils.translation import gettext_lazy as _
 
 
 def avatar_image_file_path(instance, filename):
@@ -55,7 +56,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     '''
     User Model
     '''
-
     email = models.EmailField(max_length=255, unique=True, verbose_name='信箱')
     name = models.CharField(max_length=255, verbose_name='暱稱')
     is_active = models.BooleanField(default=True)
@@ -68,19 +68,27 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self) -> str:
         return self.name
 
+    class Meta:
+        ordering = ['-id']
+        verbose_name = "用戶"
+        verbose_name_plural = verbose_name
+        get_latest_by = 'id'
+
 
 class Profile(models.Model):
+    ''' Profile Model '''
     user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='profile'
     )
     avatar = models.ImageField(null=True, blank=True,
                                upload_to=avatar_image_file_path,
                                verbose_name='頭貼')
     GENDER_CHOICES = (
-        ('MALE', '男生'),
-        ('FEMALE', '女生'),
-        ('OTHER', '其他')
+        ('MALE', _('男生')),
+        ('FEMALE', _('女生')),
+        ('OTHER', _('其他'))
     )
     gender = models.CharField(max_length=6,
                               choices=GENDER_CHOICES,
