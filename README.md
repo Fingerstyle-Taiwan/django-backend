@@ -36,7 +36,11 @@ make up
 If you get a database error after **make up**, just try the code below, it will remove the database from disk, then rebuild volume again.
 ```console
 make down
-docker volume rm django-backend_dev-db-data django-backend_dev-static-data
+```
+```console
+make database-init
+```
+```console
 make up
 ```
 
