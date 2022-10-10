@@ -139,3 +139,6 @@ class Artist(models.Model):
     fb_link = models.URLField(max_length=200, blank=True, verbose_name='Facebook')
     ig_link = models.URLField(max_length=200, blank=True, verbose_name='Instagram')
     yt_link = models.URLField(max_length=200, blank=True, verbose_name='Youtube')
+
+    def __str__(self) -> str:
+        return self.name
