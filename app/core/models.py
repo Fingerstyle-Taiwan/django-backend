@@ -26,6 +26,14 @@ def avatar_image_file_path(instance, filename):
     return os.path.join('uploads', 'avatar', filename)
 
 
+def artist_image_file_path(instance, filename):
+    ''' Generate file path for artist images. '''
+    ext = os.path.splitext(filename)[1]
+    filename = f'{uuid.uuid4()}{ext}'
+
+    return os.path.join('uploads', 'artist', filename)
+
+
 class UserManager(BaseUserManager):
     '''
     Manager for users.
@@ -114,3 +122,28 @@ class Profile(models.Model):
     @receiver(post_save, sender=settings.AUTH_USER_MODEL)
     def save_user_profile(sender, instance, **kwargs):
         instance.profile.save()
+
+
+class Artist(models.Model):
+    ''' Artist Model. '''
+    name = models.CharField(max_length=30, verbose_name='名字')
+    avatar = models.ImageField(null=True, blank=True,
+                               upload_to=artist_image_file_path,
+                               verbose_name='頭貼')
+    cover = models.ImageField(null=True, blank=True,
+                              upload_to=artist_image_file_path,
+                              verbose_name='封面照片')
+    country = CountryField(blank_label='(選擇國家/地區)', default='TW',
+                           verbose_name='國家/地區')
+    information = RichTextField(null=True, blank=True, verbose_name='簡介')
+    website = models.URLField(max_length=200, blank=True,
+                              verbose_name='個人網站')
+    fb_link = models.URLField(max_length=200, blank=True,
+                              verbose_name='Facebook')
+    ig_link = models.URLField(max_length=200, blank=True,
+                              verbose_name='Instagram')
+    yt_link = models.URLField(max_length=200, blank=True,
+                              verbose_name='Youtube')
+
+    def __str__(self) -> str:
+        return self.name

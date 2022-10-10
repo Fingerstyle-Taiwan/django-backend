@@ -12,6 +12,13 @@ class UserProfileInline(admin.StackedInline):
     model = models.Profile
 
 
+@admin.register(models.Artist)
+class ArtistAdmin(admin.ModelAdmin):
+    ''' Define the admin pages for artists. '''
+    ordering = ['id']
+    list_display = ['name', 'country']
+
+
 @admin.register(models.User)
 class UserAdmin(BaseUserAdmin):
     ''' Define the admin pages for users. '''
