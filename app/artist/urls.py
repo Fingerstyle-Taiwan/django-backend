@@ -8,5 +8,5 @@ from artist import views
 app_name = 'artist'
 
 urlpatterns = [
-    path('artist/', views.ListArtists.as_view(), name='artist-list'),
+    path('list/', views.ListArtists.as_view(), name='artist-list'),
 ]
