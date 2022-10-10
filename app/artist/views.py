@@ -7,7 +7,7 @@ from artist.serializer import ArtistSerializer
 from core.models import Artist
 
 
-class CreateListItems(mixins.ListModelMixin, GenericAPIView):
+class ListArtists(mixins.ListModelMixin, GenericAPIView):
 
     serializer_class = ArtistSerializer
     queryset = Artist.objects.all()
