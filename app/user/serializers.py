@@ -106,7 +106,8 @@ class ExchangeProviderSerializer(serializers.Serializer):
 
         try:
             email = self.validated_data.get('email')
-            user_profile = self.utils.get_user_profile(self.validated_data.get('access_token'))
+            user_profile = self.utils.get_user_profile(
+                self.validated_data.get('access_token'))
             if email != user_profile['email']:
                 raise Exception("User Email doesn't match")
 
