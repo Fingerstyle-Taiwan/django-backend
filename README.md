@@ -22,16 +22,41 @@ git clone https://github.com/Fingerstyle-Taiwan/django-backend.git
 cd django-backend
 ```
 
-### Build docker container
+### Build docker container and apps
 ```console
-make build-docker
+make build
 ```
 
-### Start  docker apps (Django and PostgreSQL)
+### Start docker apps (Django and PostgreSQL)
 This command will launch django server and database.
-See [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+See [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin)
 ```console
 make up
+```
+If you get a database error after **make up**, just try the code below, it will remove the database from disk, then rebuild volume again.
+```console
+make down
+```
+```console
+make database-init
+```
+```console
+make up
+```
+
+### Setup a superuser for development
+```console
+make superuser
+```
+
+### See APIs docs
+See [http://127.0.0.1:8000/api/docs](http://127.0.0.1:8000/api/docs)
+![APIs docs screenshot](https://i.imgur.com/PnnrX91.png)
+
+
+### Stop docker apps (Django and PostgreSQL)
+```console
+make down
 ```
 
 ## Usage
@@ -48,9 +73,7 @@ make lint
 make test
 ```
 
-### APIs docs
-See [http://127.0.0.1:8000/api/docs](http://127.0.0.1:8000/api/docs)
-![APIs docs screenshot](https://i.imgur.com/PnnrX91.png)
+
 
 ### Django commands
 
@@ -64,9 +87,14 @@ See [http://127.0.0.1:8000/api/docs](http://127.0.0.1:8000/api/docs)
 make superuser
 ```
 
-- make migrations
+- migrations
 ```console
 make migrations
+```
+
+- migrate
+```console
+make migrate
 ```
 
 ### Git commit

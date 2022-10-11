@@ -3,12 +3,14 @@ services:
   django-app:
     build:
       context: .
+      dockerfile: Dockerfile
       args:
         - DEV=true
     ports:
       - "8000:8000"
     volumes:
       - ./app:/app
+      - dev-static-data:/vol/web
     command: >
       sh -c "python manage.py wait_for_db &&
              python manage.py migrate &&
@@ -18,13 +20,17 @@ services:
       - DB_NAME=devdb
       - DB_USER=devuser
       - DB_PASSWORD=devuser
+      - GOOGLE_CLIENT_ID=google_client_id
+      - GOOGLE_SECRET_KEY=google_secret_key
+      - FACEBOOK_CLIENT_ID=fb_client_id
+      - FACEBOOK_SECRET_KEY=fb_secret_key
     depends_on:
       - postgres-db
 
   postgres-db:
     image: postgres:13-alpine
     ports:
-     - 5432:5432
+      - 5432:5432
     volumes:
       - dev-db-data:/var/lib/postgresql/data
     environment:
@@ -34,3 +40,4 @@ services:
 
 volumes:
   dev-db-data:
+  dev-static-data:

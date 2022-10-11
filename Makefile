@@ -1,6 +1,3 @@
-build-docker:
-	@docker build .
-
 build:
 	@docker-compose build
 
@@ -18,6 +15,15 @@ create-app:
 
 migrations:
 	@docker-compose run --rm django-app sh -c "python manage.py makemigrations"
+
+migrate-init:
+	@docker-compose run --rm django-app sh -c "python manage.py migrate --fake-initial"
+
+migrate:
+	@docker-compose run --rm django-app sh -c "python manage.py migrate"
+
+database-init:
+	@docker volume rm django-backend_dev-db-data django-backend_dev-static-data
 
 test:
 	@docker-compose run --rm django-app sh -c "python manage.py test"

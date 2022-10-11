@@ -52,7 +52,7 @@ body:
       description: 您的功能請求的缺點/影響是什麼？
       placeholder: 確定缺點和影響，同時對您的功能請求保持中立態度
     validations:
-      required: true
+      required: false
   - type: textarea
     id: unresolved_question
     attributes:

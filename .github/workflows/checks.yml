@@ -1,8 +1,12 @@
 ---
 name: Checks
-
-on: [push]
-
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches: '**'
 jobs:
   test-lint:
     name: Test and Lint
