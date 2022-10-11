@@ -10,6 +10,10 @@ COPY ./app /app
 WORKDIR /app
 EXPOSE 8000
 
+ARG GOOGLE_CLIENT_ID=""
+ARG GOOGLE_SECRET_KEY=""
+ARG FACEBOOK_CLIENT_ID=""
+ARG FACEBOOK_SECRET_KEY=""
 ARG DEV=false
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
@@ -31,8 +35,11 @@ RUN python -m venv /py && \
     chown -R django-user:django-user /vol && \
     chmod -R 755 /vol
 
-
-ENV PATH="/py/bin:$PATH"
+ENV PATH="/py/bin:$PATH" \
+    GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID \
+    GOOGLE_SECRET_KEY=$GOOGLE_SECRET_KEY \
+    FACEBOOK_CLIENT_ID=$FACEBOOK_CLIENT_ID \
+    FACEBOOK_SECRET_KEY=$FACEBOOK_SECRET_KEY
 
 USER django-user
 
