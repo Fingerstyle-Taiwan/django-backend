@@ -23,10 +23,28 @@ migrate:
 	@docker-compose run --rm django-app sh -c "python manage.py migrate"
 
 database-init:
-	@docker volume rm django-backend_dev-db-data django-backend_dev-static-data
+	@docker-compose down --volumes
 
 test:
 	@docker-compose run --rm django-app sh -c "python manage.py test"
 
 lint:
 	@docker-compose run --rm django-app sh -c "flake8"
+
+prod-up:
+	@docker-compose -f docker-compose-deploy.yml up -d
+
+prod-down:
+	@docker-compose -f docker-compose-deploy.yml down
+
+prod-init:
+	@docker-compose -f docker-compose-deploy.yml down --volumes
+
+prod-logs:
+	@docker-compose -f docker-compose-deploy.yml logs
+
+prod-rebuild:
+	@docker-compose -f docker-compose-deploy.yml build app
+
+prod-re-up:
+	@docker-compose -f docker-compose-deploy.yml up --no-deps -d app
