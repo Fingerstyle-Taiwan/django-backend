@@ -1,5 +1,7 @@
 server {
     listen ${LISTEN_PORT};
+    listen [::]:${LISTEN_PORT};
+    server_name fingerstyletaiwan.com www.fingerstyletaiwan.com;
 
     location /static {
         alias /vol/static;
