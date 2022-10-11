@@ -148,3 +148,19 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
+
+SOCIAL_PROVIDERS = {
+    "google": {
+        "APP": {
+            "client_id": os.environ.get("GOOGLE_CLIENT_ID"),
+            "secret": os.environ.get("GOOGLE_SECRET_KEY")
+        }
+    },
+    "facebook": {
+        "VERSION": "v15.0",
+        'APP': {
+            'client_id': os.environ.get("FACEBOOK_CLIENT_ID"),
+            'secret': os.environ.get("FACEBOOK_SECRET_KEY"),
+        }
+    }
+}
