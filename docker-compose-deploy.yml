@@ -47,7 +47,7 @@ services:
     volumes:
       - ./proxy/certbot/conf:/etc/letsencrypt
       - ./proxy/certbot/www:/var/www/certbot
-    command: certonly --webroot -w /var/www/certbot --force-renewal --email fingerstyletaiwan@gmail.com -d api.fingerstyletaiwan.com --agree-tos
+    command: certonly --webroot -w /var/www/certbot --email fingerstyletaiwan@gmail.com -d api.fingerstyletaiwan.com --agree-tos -v
 volumes:
   postgres-data:
   static-data:
