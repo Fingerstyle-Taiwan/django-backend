@@ -41,7 +41,13 @@ services:
       - 80:8000
     volumes:
       - static-data:/vol/static
-
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./proxy/certbot/conf:/etc/letsencrypt
+      - ./proxy/certbot/www:/var/www/certbot
+    command: certonly --webroot -w /var/www/certbot --force-renewal --email fingerstyletaiwan@gmail.com -d api.fingerstyletaiwan.com --agree-tos
 volumes:
   postgres-data:
   static-data:
