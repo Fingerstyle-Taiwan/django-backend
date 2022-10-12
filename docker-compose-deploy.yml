@@ -41,6 +41,8 @@ services:
       - 80:8000
     volumes:
       - static-data:/vol/static
+      - ./proxy/certbot/conf:/etc/letsencrypt
+      - ./proxy/certbot/www:/var/www/certbot
   certbot:
     image: certbot/certbot
     container_name: certbot
