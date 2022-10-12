@@ -1,6 +1,5 @@
 server {
     listen ${LISTEN_PORT};
-    listen [::]:${LISTEN_PORT};
     server_name api.fingerstyletaiwan.com;
 
     location /static {
