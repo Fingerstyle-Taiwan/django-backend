@@ -1,7 +1,6 @@
 server {
     listen ${LISTEN_PORT};
-    listen [::]:${LISTEN_PORT};
-    server_name fingerstyletaiwan.com www.fingerstyletaiwan.com;
+    server_name api.fingerstyletaiwan.com;
 
     location /static {
         alias /vol/static;
@@ -13,9 +12,4 @@ server {
         client_max_body_size 10M;
     }
 
-    location / {
-                proxy_pass http://localhost:3000;
-                proxy_set_header Host $host;
-                proxy_set_header X-Real-IP $remote_addr;
-  }
 }
