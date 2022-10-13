@@ -30,7 +30,6 @@ services:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
-
   proxy:
     build:
       context: ./proxy
@@ -38,18 +37,31 @@ services:
     depends_on:
       - app
     ports:
-      - 80:8000
+      - 80:80
+      - 443:443
     volumes:
       - static-data:/vol/static
-      - ./proxy/certbot/conf:/etc/letsencrypt
-      - ./proxy/certbot/www:/var/www/certbot
+      - certbot-web:/vol/www
+      - proxy-dhparams:/vol/proxy
+      - certbot-certs:/etc/letsencrypt
+    environment:
+      - DOMAIN=${DOMAIN}
+
   certbot:
-    image: certbot/certbot
-    container_name: certbot
+    build:
+      context: ./certbot
+    command: echo "Skipping..."
+    environment:
+      - EMAIL=${ACME_DEFAULT_EMAIL}
+      - DOMAIN=${DOMAIN}
     volumes:
-      - ./proxy/certbot/conf:/etc/letsencrypt
-      - ./proxy/certbot/www:/var/www/certbot
-    command: certonly --webroot -w /var/www/certbot --email fingerstyletaiwan@gmail.com -d api.fingerstyletaiwan.com --agree-tos -v
+      - certbot-web:/vol/www
+      - certbot-certs:/etc/letsencrypt/
+    depends_on:
+      - proxy
 volumes:
-  postgres-data:
   static-data:
+  postgres-data:
+  certbot-web:
+  proxy-dhparams:
+  certbot-certs:
