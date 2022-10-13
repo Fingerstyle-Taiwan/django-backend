@@ -16,6 +16,7 @@ from ckeditor.fields import RichTextField
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.utils.translation import gettext_lazy as _
+from django.contrib.postgres.fields import ArrayField
 
 
 def avatar_image_file_path(instance, filename):
@@ -123,6 +124,27 @@ class Profile(models.Model):
     def save_user_profile(sender, instance, **kwargs):
         instance.profile.save()
 
+class Contest(models.Model):
+    
+    name = models.CharField(max_length=255, null=True,
+                            blank=True, verbose_name='活動名稱')
+    date = models.CharField(max_length=255, null=True,
+                            blank=True, verbose_name='活動開始結束')
+    origanizer = models.CharField(max_length=255, null=True,
+                            blank=True, verbose_name='活動單位')
+    link = models.CharField(max_length=255, null=True,
+                            blank=True, verbose_name='活動連結')
+    image = models.ImageField(max_length=255, null=True,
+                            blank=True, verbose_name='活動圖片')
+    tags = ArrayField(models.CharField(max_length=255), 
+                             null=True, blank=True, verbose_name='活動tags')
+    class Meta:
+        verbose_name = _("活動")
+        verbose_name_plural = _("s")
+
+    def __str__(self):
+        return self.name
+
 
 class Artist(models.Model):
     ''' Artist Model. '''
@@ -147,3 +169,4 @@ class Artist(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
