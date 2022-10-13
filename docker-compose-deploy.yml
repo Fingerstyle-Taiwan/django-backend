@@ -19,6 +19,7 @@ services:
       - GOOGLE_SECRET_KEY=${GOOGLE_SECRET_KEY}
       - FACEBOOK_CLIENT_ID=${FACEBOOK_CLIENT_ID}
       - FACEBOOK_SECRET_KEY=${FACEBOOK_SECRET_KEY}
+      - DJANGO_DEBUG=${DJANGO_DEBUG}
     depends_on:
       - db
   db:

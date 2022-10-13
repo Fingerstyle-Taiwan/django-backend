@@ -126,23 +126,19 @@ class Profile(models.Model):
 
 
 class Contest(models.Model):
-    ''' Contest Model. '''
+
     name = models.CharField(max_length=255, null=True,
-                            blank=True, verbose_name='活動名稱')
+                            blank=False, verbose_name='活動名稱')
     date = models.CharField(max_length=255, null=True,
                             blank=True, verbose_name='活動開始結束')
-    origanizer = models.CharField(max_length=255, null=True,
-                                  blank=True, verbose_name='活動單位')
+    organizer = models.CharField(max_length=255, null=True,
+                                 blank=False, verbose_name='活動單位')
     link = models.CharField(max_length=255, null=True,
                             blank=True, verbose_name='活動連結')
     image = models.ImageField(max_length=255, null=True,
                               blank=True, verbose_name='活動圖片')
     tags = ArrayField(models.CharField(max_length=255),
                       null=True, blank=True, verbose_name='活動tags')
-
-    class Meta:
-        verbose_name = _("活動")
-        verbose_name_plural = _("s")
 
     def __str__(self):
         return self.name
