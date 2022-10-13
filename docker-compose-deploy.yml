@@ -32,7 +32,7 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
   proxy:
     build:
-      context: ./proxy
+      context: ./docker/proxy
     restart: always
     depends_on:
       - app
@@ -49,10 +49,10 @@ services:
 
   certbot:
     build:
-      context: ./certbot
+      context: ./docker/certbot
     command: echo "Skipping..."
     environment:
-      - EMAIL=${ACME_DEFAULT_EMAIL}
+      - EMAIL=${EMAIL}
       - DOMAIN=${DOMAIN}
     volumes:
       - certbot-web:/vol/www
