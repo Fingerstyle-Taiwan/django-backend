@@ -33,6 +33,16 @@ See [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin)
 ```console
 make up
 ```
+If you get a database error after **make up**, just try the code below, it will remove the database from disk, then rebuild volume again.
+```console
+make down
+```
+```console
+make database-init
+```
+```console
+make up
+```
 
 ### Setup a superuser for development
 ```console

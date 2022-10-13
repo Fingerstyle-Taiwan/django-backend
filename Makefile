@@ -1,5 +1,5 @@
 build:
-	@docker build . && docker-compose build
+	@docker-compose build
 
 up:
 	@docker-compose up
@@ -22,8 +22,32 @@ migrate-init:
 migrate:
 	@docker-compose run --rm django-app sh -c "python manage.py migrate"
 
+database-init:
+	@docker-compose down --volumes
+
 test:
 	@docker-compose run --rm django-app sh -c "python manage.py test"
 
 lint:
 	@docker-compose run --rm django-app sh -c "flake8"
+
+prod-up:
+	@docker-compose -f docker-compose-deploy.yml up -d
+
+prod-superuser:
+	@docker-compose -f docker-compose-deploy.yml run --rm app sh -c "python3 manage.py createsuperuser"
+
+prod-down:
+	@docker-compose -f docker-compose-deploy.yml down
+
+prod-init:
+	@docker-compose -f docker-compose-deploy.yml down --volumes
+
+prod-logs:
+	@docker-compose -f docker-compose-deploy.yml logs
+
+prod-rebuild:
+	@docker-compose -f docker-compose-deploy.yml build app
+
+prod-re-up:
+	@docker-compose -f docker-compose-deploy.yml up --no-deps -d app
