@@ -14,7 +14,7 @@ services:
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
       - SECRET_KEY=${DJANGO_SECRET_KEY}
-      - ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
       - GOOGLE_SECRET_KEY=${GOOGLE_SECRET_KEY}
       - FACEBOOK_CLIENT_ID=${FACEBOOK_CLIENT_ID}
@@ -41,7 +41,15 @@ services:
       - 80:8000
     volumes:
       - static-data:/vol/static
-
+      - ./proxy/certbot/conf:/etc/letsencrypt
+      - ./proxy/certbot/www:/var/www/certbot
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./proxy/certbot/conf:/etc/letsencrypt
+      - ./proxy/certbot/www:/var/www/certbot
+    command: certonly --webroot -w /var/www/certbot --email fingerstyletaiwan@gmail.com -d api.fingerstyletaiwan.com --agree-tos -v
 volumes:
   postgres-data:
   static-data:

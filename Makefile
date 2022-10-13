@@ -34,6 +34,9 @@ lint:
 prod-up:
 	@docker-compose -f docker-compose-deploy.yml up -d
 
+prod-superuser:
+	@docker-compose -f docker-compose-deploy.yml run --rm app sh -c "python3 manage.py createsuperuser"
+
 prod-down:
 	@docker-compose -f docker-compose-deploy.yml down
 
