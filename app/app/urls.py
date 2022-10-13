@@ -30,6 +30,6 @@ urlpatterns = [
     ),
 
     path('user/', include('user.urls')),
-    path('contest/', include('contest.urls'))
+    path('contest/', include('contest.urls')),
     path('artist/', include('artist.urls'))
 ]
