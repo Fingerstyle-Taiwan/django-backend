@@ -19,6 +19,13 @@ class ArtistAdmin(admin.ModelAdmin):
     list_display = ['name', 'country']
 
 
+@admin.register(models.Contest)
+class ContestAdmin(admin.ModelAdmin):
+    ''' Define the admin pages for artists. '''
+    ordering = ['id']
+    list_display = ['name', 'organizer']
+
+
 @admin.register(models.User)
 class UserAdmin(BaseUserAdmin):
     ''' Define the admin pages for users. '''

@@ -24,6 +24,7 @@ services:
       - GOOGLE_SECRET_KEY=google_secret_key
       - FACEBOOK_CLIENT_ID=fb_client_id
       - FACEBOOK_SECRET_KEY=fb_secret_key
+      - DJANGO_DEBUG=${DJANGO_DEBUG}
     depends_on:
       - postgres-db
 
