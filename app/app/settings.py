@@ -165,4 +165,4 @@ SOCIAL_PROVIDERS = {
     }
 }
 
-CSRF_TRUSTED_ORIGINS = ['api.fingerstyletaiwan.com']
+CSRF_TRUSTED_ORIGINS = ['https://*.fingerstyletaiwan.com']
