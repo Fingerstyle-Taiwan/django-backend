@@ -11,5 +11,9 @@ server {
         include              /etc/nginx/uwsgi_params;
         client_max_body_size 10M;
     }
+
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
 }
 
