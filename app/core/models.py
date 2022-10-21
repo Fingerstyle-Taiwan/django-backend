@@ -1,6 +1,8 @@
 '''
 Database models.
 '''
+
+
 import uuid
 import os
 
@@ -17,7 +19,7 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.utils.translation import gettext_lazy as _
 from django.contrib.postgres.fields import ArrayField
-
+from django.utils.timezone import now
 
 def avatar_image_file_path(instance, filename):
     ''' Generate file path for new recipe image. '''
@@ -128,17 +130,34 @@ class Profile(models.Model):
 class Contest(models.Model):
 
     name = models.CharField(max_length=255, null=True,
-                            blank=False, verbose_name='活動名稱')
-    date = models.CharField(max_length=255, null=True,
-                            blank=True, verbose_name='活動開始結束')
+                            blank=False, verbose_name='比賽名稱')
+    # 2022-10-18 request-contest-detail-fields -> remove date
+    # date = models.CharField(max_length=255, null=True,
+    #                         blank=True, verbose_name='比賽開始結束')
     organizer = models.CharField(max_length=255, null=True,
-                                 blank=False, verbose_name='活動單位')
+                                 blank=False, verbose_name='主辦單位')
     link = models.CharField(max_length=255, null=True,
-                            blank=True, verbose_name='活動連結')
+                            blank=True, verbose_name='連結')
     image = models.ImageField(max_length=255, null=True,
-                              blank=True, verbose_name='活動圖片')
+                              blank=True, verbose_name='圖片')
     tags = ArrayField(models.CharField(max_length=255),
-                      null=True, blank=True, verbose_name='活動tags')
+                      null=True, blank=True, verbose_name='標籤')
+    # 2022-10-18 request-contest-detail-fields
+    start_from = models.DateField(null=True, blank=True, verbose_name='開始於')
+    end_at = models.DateField(null=True, blank=True, verbose_name='結束於')
+    is_active = models.BooleanField(default=True)
+    cover_image = models.ImageField(max_length=255, null=True,
+                              blank=True, verbose_name='封面圖片')
+    email = models.EmailField(max_length=255, verbose_name='聯絡信箱')
+    identity_restrictions = ArrayField(models.CharField(max_length=255),
+                                       null=True, blank=True, verbose_name='身份限制')
+    regional_restrictions = CountryField(blank_label='(選擇國家/地區)', default='TW',
+                                         verbose_name='國家/地區限制')
+    views = models.PositiveIntegerField(default=0, editable=False)
+    likes = models.ManyToManyField(User, blank=True, related_name='likes')
+    saved = models.ManyToManyField(User, blank=True, related_name='saved')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='建立時間', editable=False)
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='更新時間', editable=False)
 
     def __str__(self):
         return self.name
