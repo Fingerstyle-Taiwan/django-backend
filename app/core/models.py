@@ -113,6 +113,7 @@ class Profile(models.Model):
                                     blank=True, verbose_name='吉他品牌')
     guitar_model = models.CharField(max_length=20, null=True,
                                     blank=True, verbose_name='吉他型號')
+    liked_contest = models.ManyToManyField('Contest', through='ContestLikes')
 
     def __str__(self) -> str:
         return self.user.name
@@ -132,8 +133,6 @@ class Contest(models.Model):
     name = models.CharField(max_length=255, null=True,
                             blank=False, verbose_name='比賽名稱')
     # 2022-10-18 request-contest-detail-fields -> remove date
-    # date = models.CharField(max_length=255, null=True,
-    #                         blank=True, verbose_name='比賽開始結束')
     organizer = models.CharField(max_length=255, null=True,
                                  blank=False, verbose_name='主辦單位')
     link = models.CharField(max_length=255, null=True,
@@ -154,13 +153,18 @@ class Contest(models.Model):
     regional_restrictions = CountryField(blank_label='(選擇國家/地區)', default='TW',
                                          verbose_name='國家/地區限制')
     views = models.PositiveIntegerField(default=0, editable=False)
-    likes = models.ManyToManyField(User, blank=True, related_name='likes')
-    saved = models.ManyToManyField(User, blank=True, related_name='saved')
+    likes = models.ManyToManyField(Profile, through='ContestLikes')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='建立時間', editable=False)
     updated_at = models.DateTimeField(auto_now=True, verbose_name='更新時間', editable=False)
 
     def __str__(self):
         return self.name
+
+
+class ContestLikes(models.Model):
+    ''' Define Like model. '''
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
 
 
 class Artist(models.Model):
