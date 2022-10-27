@@ -31,4 +31,4 @@ class ContestLikeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Contest
-        fields = ['id']
+        fields = ['id', 'likes']
