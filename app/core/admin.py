@@ -7,6 +7,10 @@ from django.utils.translation import gettext_lazy as _
 from core import models
 
 
+class ContestLikeInline(admin.StackedInline):
+    model = models.ContestLikes
+
+
 class UserProfileInline(admin.StackedInline):
     ''' Define the admin pages for profiles. '''
     model = models.Profile
@@ -24,6 +28,7 @@ class ContestAdmin(admin.ModelAdmin):
     ''' Define the admin pages for artists. '''
     ordering = ['id']
     list_display = ['name', 'organizer']
+    inlines = [ContestLikeInline]
 
 
 @admin.register(models.User)
