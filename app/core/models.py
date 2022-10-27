@@ -72,6 +72,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
+    # liked_contest = models.ManyToManyField('Contest', through='ContestLikes')
+
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
@@ -113,7 +115,7 @@ class Profile(models.Model):
                                     blank=True, verbose_name='吉他品牌')
     guitar_model = models.CharField(max_length=20, null=True,
                                     blank=True, verbose_name='吉他型號')
-    liked_contest = models.ManyToManyField('Contest', through='ContestLikes')
+
 
     def __str__(self) -> str:
         return self.user.name
@@ -153,7 +155,7 @@ class Contest(models.Model):
     regional_restrictions = CountryField(blank_label='(選擇國家/地區)', default='TW',
                                          verbose_name='國家/地區限制')
     views = models.PositiveIntegerField(default=0, editable=False)
-    likes = models.ManyToManyField(Profile, through='ContestLikes')
+    likes = models.ManyToManyField(User, through='ContestLikes')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='建立時間', editable=False)
     updated_at = models.DateTimeField(auto_now=True, verbose_name='更新時間', editable=False)
 
@@ -163,8 +165,12 @@ class Contest(models.Model):
 
 class ContestLikes(models.Model):
     ''' Define Like model. '''
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    contest = models.ForeignKey(Contest, on_delete=models.CASCADE, null=True)
+
+
+    class Meta:
+        unique_together = [('user', 'contest')]
 
 
 class Artist(models.Model):
