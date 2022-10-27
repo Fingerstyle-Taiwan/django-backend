@@ -1,4 +1,3 @@
-from dataclasses import fields
 from core.models import Contest
 from rest_framework import serializers
 
@@ -19,12 +18,12 @@ class ContestDetailSerializer(serializers.ModelSerializer):
         source='likes.count',
         read_only=True
     )
+    is_liked = serializers.BooleanField(read_only=True, default=False)
 
     class Meta:
         model = Contest
         exclude = ['likes']
-        extra_fields = ['like_count']
-
+        extra_fields = ['like_count', 'is_liked']
 
 
 class ContestLikeSerializer(serializers.ModelSerializer):
