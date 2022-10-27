@@ -2,7 +2,7 @@ from contest.serializers import (ContestSerializer,
                                  ContestDetailSerializer,
                                  ContestLikeSerializer
                                  )
-from rest_framework import generics, mixins
+from rest_framework import generics, mixins, authentication, permissions
 from core.models import Contest, ContestLikes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser
@@ -21,6 +21,8 @@ class ContestDetailView(mixins.RetrieveModelMixin,
                         generics.GenericAPIView):
     queryset = Contest.objects.all()
     serializer_class = ContestDetailSerializer
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_permission_classes(self):
         ''' Return the serializer class for requests. '''
