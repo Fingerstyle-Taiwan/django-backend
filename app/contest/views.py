@@ -1,6 +1,5 @@
 from contest.serializers import (ContestSerializer,
                                  ContestDetailSerializer,
-                                 ContestLikeSerializer
                                  )
 from rest_framework import generics, mixins, authentication, permissions
 from core.models import Contest, ContestLikes
@@ -46,7 +45,6 @@ class ContestDetailView(mixins.RetrieveModelMixin,
 
 class ContestLikeView(mixins.CreateModelMixin,  generics.GenericAPIView):
     queryset = Contest.objects.all()
-    serializer_class = ContestLikeSerializer
 
     def get_queryset(self):
         queryset = self.queryset

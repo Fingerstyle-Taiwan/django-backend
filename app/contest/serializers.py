@@ -24,10 +24,3 @@ class ContestDetailSerializer(serializers.ModelSerializer):
         model = Contest
         exclude = ['likes']
         extra_fields = ['like_count', 'is_liked']
-
-
-class ContestLikeSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Contest
-        fields = ['id', 'likes']
