@@ -20,8 +20,6 @@ class ContestDetailView(mixins.RetrieveModelMixin,
                         generics.GenericAPIView):
     queryset = Contest.objects.all()
     serializer_class = ContestDetailSerializer
-    authentication_classes = [authentication.TokenAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
 
     def get_permission_classes(self):
         ''' Return the serializer class for requests. '''
@@ -45,6 +43,8 @@ class ContestDetailView(mixins.RetrieveModelMixin,
 
 class ContestLikeView(mixins.CreateModelMixin,  generics.GenericAPIView):
     queryset = Contest.objects.all()
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         queryset = self.queryset
