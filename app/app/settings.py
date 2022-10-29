@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'drf_spectacular',
     'user',
-    'ckeditor'
+    'ckeditor',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -59,6 +60,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'app.urls'
@@ -166,3 +169,9 @@ SOCIAL_PROVIDERS = {
 }
 
 CSRF_TRUSTED_ORIGINS = ['https://*.fingerstyletaiwan.com']
+
+CORS_ALLOWED_ORIGINS = [
+    "https://www.fingerstyletaiwan.com",
+    "https://fingerstyletaiwan.com",
+    "http://localhost:3000",
+]
