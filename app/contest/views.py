@@ -4,7 +4,6 @@ from contest.serializers import (ContestSerializer,
 from rest_framework import generics, mixins, authentication, permissions
 from core.models import Contest, ContestLikes
 from rest_framework.response import Response
-from rest_framework.permissions import IsAdminUser
 from django.db.models import Exists, OuterRef
 
 
@@ -21,13 +20,6 @@ class ContestDetailView(mixins.RetrieveModelMixin,
     queryset = Contest.objects.all()
     serializer_class = ContestDetailSerializer
 
-    def get_permission_classes(self):
-        ''' Return the serializer class for requests. '''
-        if self.action != 'get':
-            return [IsAdminUser]
-
-        return self.permission_classes
-
     def get(self, request, *args, **kwargs):
         contest = self.get_object()
         contest.views += 1
@@ -41,7 +33,7 @@ class ContestDetailView(mixins.RetrieveModelMixin,
                                            .order_by('id')
 
 
-class ContestLikeView(mixins.CreateModelMixin,  generics.GenericAPIView):
+class ContestLikeView(mixins.CreateModelMixin, generics.GenericAPIView):
     queryset = Contest.objects.all()
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
