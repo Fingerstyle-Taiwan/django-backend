@@ -1,26 +1,30 @@
 from core.models import Contest
 from rest_framework import serializers
+from taggit.serializers import (TagListSerializerField,
+                                TaggitSerializer)
 
 
-class ContestSerializer(serializers.ModelSerializer):
+class ContestSerializer(TaggitSerializer, serializers.ModelSerializer):
     like_count = serializers.IntegerField(
         source='likes.count',
         read_only=True
     )
+    tags = TagListSerializerField()
 
     class Meta:
         model = Contest
-        fields = ['id', 'name', 'organizer', 'like_count']
+        fields = ['id', 'name', 'organizer', 'like_count', 'tags']
 
 
-class ContestDetailSerializer(serializers.ModelSerializer):
+class ContestDetailSerializer(TaggitSerializer, serializers.ModelSerializer):
     like_count = serializers.IntegerField(
         source='likes.count',
         read_only=True
     )
     is_liked = serializers.BooleanField(read_only=True, default=False)
+    tags = TagListSerializerField()
 
     class Meta:
         model = Contest
         exclude = ['likes']
-        extra_fields = ['like_count', 'is_liked']
+        extra_fields = ['like_count', 'is_liked', 'tags']
