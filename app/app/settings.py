@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'user',
     'ckeditor',
     'corsheaders',
+    'taggit',
 ]
 
 MIDDLEWARE = [
