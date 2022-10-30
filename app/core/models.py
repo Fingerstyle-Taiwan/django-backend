@@ -183,7 +183,7 @@ class Contest(models.Model):
                                              choices=TYPE_CHOICES,
                                              default='personal',
                                              blank=True,
-                                             verbose_name='身份限制'))
+                                             null=True,), verbose_name='身份限制')
     regional_restrictions = CountryField(blank_label='(選擇國家/地區)', default='TW',
                                          verbose_name='國家/地區限制')
     views = models.PositiveIntegerField(default=0, editable=False)
