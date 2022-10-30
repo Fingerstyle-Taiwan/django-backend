@@ -20,7 +20,7 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.utils.translation import gettext_lazy as _
 from django.contrib.postgres.fields import ArrayField
-
+from taggit.managers import TaggableManager
 
 def avatar_image_file_path(instance, filename):
     ''' Generate file path for new recipe image. '''
@@ -170,8 +170,7 @@ class Contest(models.Model):
         ('fingerstyle', _('演奏組')),
         ('society', _('社會組'))
     )
-    tags = ArrayField(models.CharField(max_length=255),
-                      null=True, blank=True, verbose_name='標籤')
+    tags = TaggableManager()
     # 2022-10-18 request-contest-detail-fields
     start_from = models.DateField(null=True, blank=True, verbose_name='開始於')
     end_at = models.DateField(null=True, blank=True, verbose_name='結束於')
