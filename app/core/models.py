@@ -241,3 +241,9 @@ class Artist(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+    class Meta:
+        ordering = ['id']
+        verbose_name = "指彈家"
+        verbose_name_plural = verbose_name
+        get_latest_by = 'id'
