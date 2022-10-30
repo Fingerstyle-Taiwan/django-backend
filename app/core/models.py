@@ -22,6 +22,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.postgres.fields import ArrayField
 from taggit.managers import TaggableManager
 
+
 def avatar_image_file_path(instance, filename):
     ''' Generate file path for new recipe image. '''
     ext = os.path.splitext(filename)[1]
@@ -139,7 +140,8 @@ class ChoiceArrayField(ArrayField):
 
     Usage:
 
-        choices = ChoiceArrayField(models.CharField(max_length=..., choices=(...,)), default=[...])
+    choices = ChoiceArrayField(models.CharField(max_length=...,
+                               choices=(...,)), default=[...])
     """
 
     def formfield(self, **kwargs):
