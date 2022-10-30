@@ -21,6 +21,9 @@ from django.db.models.signals import post_save
 from django.utils.translation import gettext_lazy as _
 from django.contrib.postgres.fields import ArrayField
 from taggit.managers import TaggableManager
+from django.contrib.contenttypes.fields import (GenericForeignKey,
+                                                GenericRelation)
+from django.contrib.contenttypes.models import ContentType
 
 
 def avatar_image_file_path(instance, filename):
@@ -188,7 +191,7 @@ class Contest(models.Model):
     regional_restrictions = CountryField(blank_label='(選擇國家/地區)', default='TW',
                                          verbose_name='國家/地區限制')
     views = models.PositiveIntegerField(default=0, editable=False)
-    likes = models.ManyToManyField(User, through='ContestLikes')
+    likes = GenericRelation('Likes', related_query_name='contest')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='建立時間',
                                       editable=False)
     updated_at = models.DateTimeField(auto_now=True, verbose_name='更新時間',
@@ -204,19 +207,14 @@ class Contest(models.Model):
         get_latest_by = 'id'
 
 
-class ContestLikes(models.Model):
+class Likes(models.Model):
     ''' Define Like model. '''
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
-                             related_name='post_likes')
-    contest = models.ForeignKey(Contest, on_delete=models.CASCADE,
-                                null=True, related_name='contest_likes')
-    created_at = models.DateTimeField(auto_now_add=True,
-                                      verbose_name='建立時間', editable=False)
-    updated_at = models.DateTimeField(auto_now=True,
-                                      verbose_name='更新時間', editable=False)
-
-    class Meta:
-        unique_together = [('user', 'contest')]
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    updated_at = models.DateTimeField(auto_now=True, editable=False)
 
 
 class Artist(models.Model):

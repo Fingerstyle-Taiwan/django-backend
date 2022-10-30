@@ -2,7 +2,7 @@ from contest.serializers import (ContestSerializer,
                                  ContestDetailSerializer,
                                  )
 from rest_framework import generics, mixins, authentication, permissions
-from core.models import Contest, ContestLikes
+from core.models import Contest, Likes
 from rest_framework.response import Response
 from django.db.models import Exists, OuterRef
 
@@ -27,10 +27,11 @@ class ContestDetailView(mixins.RetrieveModelMixin,
         return self.retrieve(request, *args, **kwargs)
 
     def get_queryset(self):
+
         return Contest.objects.annotate(is_liked=Exists(
-               ContestLikes.objects.filter(user=self.request.user,
-                                           contest_id=OuterRef('pk')))) \
-                                           .order_by('id')
+               Likes.objects.filter(user=self.request.user,
+                                    object_id=OuterRef('pk')))) \
+                                    .order_by('id')
 
 
 class ContestLikeView(mixins.CreateModelMixin, generics.GenericAPIView):
@@ -45,11 +46,12 @@ class ContestLikeView(mixins.CreateModelMixin, generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         contest = self.get_object()
         user = self.request.user
-        if user in contest.likes.all():
-            contest.likes.remove(user.id)
+        is_like_obj = contest.likes.filter(user=user)
+        if is_like_obj.exists():
+            is_like_obj.delete()
             message = 'dislike'
         else:
-            contest.likes.add(user.id)
+            contest.likes.create(user=user)
             message = 'like'
         contest.save()
 
