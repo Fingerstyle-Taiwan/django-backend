@@ -6,6 +6,7 @@ Database models.
 import uuid
 import os
 
+from django import forms
 from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -19,6 +20,7 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.utils.translation import gettext_lazy as _
 from django.contrib.postgres.fields import ArrayField
+from taggit.managers import TaggableManager
 
 
 def avatar_image_file_path(instance, filename):
@@ -129,6 +131,28 @@ class Profile(models.Model):
         instance.profile.save()
 
 
+class ChoiceArrayField(ArrayField):
+    """
+    A field that allows us to store an array of choices.
+
+    Uses Django 1.9's postgres ArrayField
+    and a MultipleChoiceField for its formfield.
+
+    Usage:
+
+    choices = ChoiceArrayField(models.CharField(max_length=...,
+                               choices=(...,)), default=[...])
+    """
+
+    def formfield(self, **kwargs):
+        defaults = {
+            'form_class': forms.MultipleChoiceField,
+            'choices': self.base_field.choices,
+        }
+        defaults.update(kwargs)
+        return super(ArrayField, self).formfield(**defaults)
+
+
 class Contest(models.Model):
 
     name = models.CharField(max_length=255, null=True,
@@ -140,8 +164,15 @@ class Contest(models.Model):
                             blank=True, verbose_name='連結')
     image = models.ImageField(max_length=255, null=True,
                               blank=True, verbose_name='圖片')
-    tags = ArrayField(models.CharField(max_length=255),
-                      null=True, blank=True, verbose_name='標籤')
+    # 2022-10-29 edit-contest-model
+    TYPE_CHOICES = (
+        ('junior', _('高中組')),
+        ('personal', _('個人組')),
+        ('team', _('團體組')),
+        ('fingerstyle', _('演奏組')),
+        ('society', _('社會組'))
+    )
+    tags = TaggableManager()
     # 2022-10-18 request-contest-detail-fields
     start_from = models.DateField(null=True, blank=True, verbose_name='開始於')
     end_at = models.DateField(null=True, blank=True, verbose_name='結束於')
@@ -149,9 +180,11 @@ class Contest(models.Model):
     cover_image = models.ImageField(max_length=255, null=True,
                                     blank=True, verbose_name='封面圖片')
     email = models.EmailField(max_length=255, verbose_name='聯絡信箱')
-    identity_restrictions = ArrayField(models.CharField(max_length=255),
-                                       null=True, blank=True,
-                                       verbose_name='身份限制')
+    identity_restrictions = ChoiceArrayField(models.CharField(max_length=12,
+                                             choices=TYPE_CHOICES,
+                                             default='personal',
+                                             blank=True,
+                                             null=True,), verbose_name='身份限制')
     regional_restrictions = CountryField(blank_label='(選擇國家/地區)', default='TW',
                                          verbose_name='國家/地區限制')
     views = models.PositiveIntegerField(default=0, editable=False)
@@ -163,6 +196,12 @@ class Contest(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ['id']
+        verbose_name = "比賽"
+        verbose_name_plural = verbose_name
+        get_latest_by = 'id'
 
 
 class ContestLikes(models.Model):
@@ -203,3 +242,9 @@ class Artist(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+    class Meta:
+        ordering = ['id']
+        verbose_name = "指彈家"
+        verbose_name_plural = verbose_name
+        get_latest_by = 'id'
