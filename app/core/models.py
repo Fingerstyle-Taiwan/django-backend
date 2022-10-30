@@ -6,6 +6,7 @@ Database models.
 import uuid
 import os
 
+from django import forms
 from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -129,6 +130,27 @@ class Profile(models.Model):
         instance.profile.save()
 
 
+class ChoiceArrayField(ArrayField):
+    """
+    A field that allows us to store an array of choices.
+
+    Uses Django 1.9's postgres ArrayField
+    and a MultipleChoiceField for its formfield.
+
+    Usage:
+
+        choices = ChoiceArrayField(models.CharField(max_length=..., choices=(...,)), default=[...])
+    """
+
+    def formfield(self, **kwargs):
+        defaults = {
+            'form_class': forms.MultipleChoiceField,
+            'choices': self.base_field.choices,
+        }
+        defaults.update(kwargs)
+        return super(ArrayField, self).formfield(**defaults)
+
+
 class Contest(models.Model):
 
     name = models.CharField(max_length=255, null=True,
@@ -140,6 +162,14 @@ class Contest(models.Model):
                             blank=True, verbose_name='連結')
     image = models.ImageField(max_length=255, null=True,
                               blank=True, verbose_name='圖片')
+    # 2022-10-29 edit-contest-model
+    TYPE_CHOICES = (
+        ('junior', _('高中組')),
+        ('personal', _('個人組')),
+        ('team', _('團體組')),
+        ('fingerstyle', _('演奏組')),
+        ('society', _('社會組'))
+    )
     tags = ArrayField(models.CharField(max_length=255),
                       null=True, blank=True, verbose_name='標籤')
     # 2022-10-18 request-contest-detail-fields
@@ -149,9 +179,11 @@ class Contest(models.Model):
     cover_image = models.ImageField(max_length=255, null=True,
                                     blank=True, verbose_name='封面圖片')
     email = models.EmailField(max_length=255, verbose_name='聯絡信箱')
-    identity_restrictions = ArrayField(models.CharField(max_length=255),
-                                       null=True, blank=True,
-                                       verbose_name='身份限制')
+    identity_restrictions = ChoiceArrayField(models.CharField(max_length=12,
+                                             choices=TYPE_CHOICES,
+                                             default='personal',
+                                             blank=True,
+                                             verbose_name='身份限制'))
     regional_restrictions = CountryField(blank_label='(選擇國家/地區)', default='TW',
                                          verbose_name='國家/地區限制')
     views = models.PositiveIntegerField(default=0, editable=False)
