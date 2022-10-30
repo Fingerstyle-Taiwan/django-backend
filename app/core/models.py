@@ -196,6 +196,12 @@ class Contest(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ['id']
+        verbose_name = "比賽"
+        verbose_name_plural = verbose_name
+        get_latest_by = 'id'
+
 
 class ContestLikes(models.Model):
     ''' Define Like model. '''
