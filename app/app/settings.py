@@ -172,7 +172,6 @@ SOCIAL_PROVIDERS = {
 CSRF_TRUSTED_ORIGINS = ['https://*.fingerstyletaiwan.com']
 
 CORS_ALLOWED_ORIGINS = [
-    "https://www.fingerstyletaiwan.com",
-    "https://fingerstyletaiwan.com",
+    "https://*.fingerstyletaiwan.com",
     "http://localhost:3000",
 ]
