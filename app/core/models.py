@@ -21,8 +21,10 @@ from django.db.models.signals import post_save
 from django.utils.translation import gettext_lazy as _
 from django.contrib.postgres.fields import ArrayField
 from taggit.managers import TaggableManager
-from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.contrib.contenttypes.fields import (GenericForeignKey,
+                                                GenericRelation)
 from django.contrib.contenttypes.models import ContentType
+
 
 def avatar_image_file_path(instance, filename):
     ''' Generate file path for new recipe image. '''

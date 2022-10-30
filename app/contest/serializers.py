@@ -27,5 +27,4 @@ class ContestDetailSerializer(TaggitSerializer, serializers.ModelSerializer):
     class Meta:
         model = Contest
         fields = '__all__'
-        # exclude = ['likes']
         extra_fields = ['like_count', 'is_liked', 'tags']

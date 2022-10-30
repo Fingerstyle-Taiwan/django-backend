@@ -5,7 +5,7 @@ from rest_framework import generics, mixins, authentication, permissions
 from core.models import Contest, Likes
 from rest_framework.response import Response
 from django.db.models import Exists, OuterRef
-from django.contrib.contenttypes.models import ContentType
+
 
 class ContestView(generics.ListAPIView):
 
@@ -30,8 +30,8 @@ class ContestDetailView(mixins.RetrieveModelMixin,
 
         return Contest.objects.annotate(is_liked=Exists(
                Likes.objects.filter(user=self.request.user,
-                                           object_id=OuterRef('pk')))) \
-                                           .order_by('id')
+                                    object_id=OuterRef('pk')))) \
+                                    .order_by('id')
 
 
 class ContestLikeView(mixins.CreateModelMixin, generics.GenericAPIView):
