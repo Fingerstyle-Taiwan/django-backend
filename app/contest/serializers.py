@@ -17,7 +17,14 @@ class ContestSerializer(TaggitSerializer, serializers.ModelSerializer):
 
     class Meta:
         model = Contest
-        fields = ['id', 'name', 'organizer', 'like_count', 'comment_count', 'tags']
+        fields = [
+            'id',
+            'name',
+            'organizer',
+            'like_count',
+            'comment_count',
+            'tags'
+        ]
 
 
 class ContestCommentSerializer(TaggitSerializer, serializers.ModelSerializer):
