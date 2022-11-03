@@ -192,6 +192,7 @@ class Contest(models.Model):
                                          verbose_name='國家/地區限制')
     views = models.PositiveIntegerField(default=0, editable=False)
     likes = GenericRelation('Likes', related_query_name='contest')
+    comments = GenericRelation('Comments')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='建立時間',
                                       editable=False)
     updated_at = models.DateTimeField(auto_now=True, verbose_name='更新時間',
@@ -215,6 +216,19 @@ class Likes(models.Model):
     content_object = GenericForeignKey('content_type', 'object_id')
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
+
+
+class Comments(models.Model):
+    ''' Define Comment model. '''
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    content = RichTextField(null=True, blank=False, verbose_name='留言內容')
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name='建立時間', editable=False)
+    updated_at = models.DateTimeField(auto_now=True,
+                                      verbose_name='更新時間', editable=False)
 
 
 class Artist(models.Model):
