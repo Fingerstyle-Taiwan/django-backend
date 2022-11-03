@@ -17,6 +17,12 @@ class LikesInline(GenericTabularInline):
     model = models.Likes
 
 
+class CommentsInline(GenericTabularInline):
+    model = models.Comments
+    extra = 0
+    readonly_fields = ['user', 'content']
+
+
 @admin.register(models.Artist)
 class ArtistAdmin(admin.ModelAdmin):
     ''' Define the admin pages for artists. '''
@@ -29,7 +35,7 @@ class ContestAdmin(admin.ModelAdmin):
     ''' Define the admin pages for artists. '''
     ordering = ['id']
     list_display = ['name', 'organizer']
-    inlines = [LikesInline]
+    inlines = [LikesInline, CommentsInline]
 
 
 @admin.register(models.User)
