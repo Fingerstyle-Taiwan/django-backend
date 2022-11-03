@@ -9,4 +9,8 @@ urlpatterns = [
          name='contest-detail'),
     path('<int:pk>/like/', views.ContestLikeView.as_view(),
          name='contest-like'),
+    path('<int:pk>/comment', views.ContestCommentView.as_view(),
+         name='contest-comment'),
+    path('comment/<int:pk>', views.ContestCommentActionView.as_view(),
+         name='contest-comment-action'),
 ]
