@@ -1,6 +1,8 @@
-from contest.serializers import (ContestSerializer,
-                                 ContestDetailSerializer,
-                                 )
+from contest.serializers import (
+    ContestSerializer,
+    ContestDetailSerializer,
+    ContestCommentSerializer
+)
 from rest_framework import (
     generics,
     mixins,
@@ -68,6 +70,7 @@ class ContestCommentView(mixins.CreateModelMixin, generics.GenericAPIView):
     queryset = Contest.objects.all()
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
+    serializer_class = ContestCommentSerializer
 
     def get_queryset(self):
         queryset = self.queryset
@@ -97,6 +100,7 @@ class ContestCommentActionView(mixins.CreateModelMixin,
     queryset = Comments.objects.all()
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
+    serializer_class = ContestCommentSerializer
 
     def get_queryset(self):
         return self.queryset.filter(id=self.kwargs['pk'])

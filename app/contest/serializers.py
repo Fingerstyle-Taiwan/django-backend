@@ -28,7 +28,7 @@ class ContestSerializer(TaggitSerializer, serializers.ModelSerializer):
 
 
 class ContestCommentSerializer(TaggitSerializer, serializers.ModelSerializer):
-    user_name = serializers.CharField(source='user.name')
+    user_name = serializers.CharField(source='user.name', read_only=True)
 
     class Meta:
         model = Comments
