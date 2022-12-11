@@ -20,11 +20,13 @@ services:
       - DB_NAME=devdb
       - DB_USER=devuser
       - DB_PASSWORD=devuser
-      - GOOGLE_CLIENT_ID=google_client_id
-      - GOOGLE_SECRET_KEY=google_secret_key
-      - FACEBOOK_CLIENT_ID=fb_client_id
-      - FACEBOOK_SECRET_KEY=fb_secret_key
-      - DJANGO_DEBUG=${DJANGO_DEBUG}
+      - SECRET_KEY=${DJANGO_SECRET_KEY}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_SECRET_KEY=${GOOGLE_SECRET_KEY}
+      - FACEBOOK_CLIENT_ID=${FACEBOOK_CLIENT_ID}
+      - FACEBOOK_SECRET_KEY=${FACEBOOK_SECRET_KEY}
+      - DJANGO_DEBUG=1
     depends_on:
       - postgres-db
 
