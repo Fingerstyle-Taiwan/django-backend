@@ -5,11 +5,21 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext_lazy as _
 from core import models
+from django.contrib.contenttypes.admin import GenericTabularInline
 
 
 class UserProfileInline(admin.StackedInline):
     ''' Define the admin pages for profiles. '''
     model = models.Profile
+
+
+class LikesInline(GenericTabularInline):
+    model = models.Likes
+
+
+class CommentsInline(GenericTabularInline):
+    model = models.Comments
+    extra = 0
 
 
 @admin.register(models.Artist)
@@ -24,6 +34,7 @@ class ContestAdmin(admin.ModelAdmin):
     ''' Define the admin pages for artists. '''
     ordering = ['id']
     list_display = ['name', 'organizer']
+    inlines = [LikesInline, CommentsInline]
 
 
 @admin.register(models.User)

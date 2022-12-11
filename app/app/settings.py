@@ -48,7 +48,9 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'drf_spectacular',
     'user',
-    'ckeditor'
+    'ckeditor',
+    'corsheaders',
+    'taggit',
 ]
 
 MIDDLEWARE = [
@@ -59,6 +61,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'app.urls'
@@ -146,7 +150,7 @@ AUTH_USER_MODEL = 'core.User'
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 10,
 }
 
 SOCIAL_PROVIDERS = {
@@ -166,3 +170,8 @@ SOCIAL_PROVIDERS = {
 }
 
 CSRF_TRUSTED_ORIGINS = ['https://*.fingerstyletaiwan.com']
+
+CORS_ALLOWED_ORIGINS = [
+    "https://*.fingerstyletaiwan.com",
+    "http://localhost:3000",
+]

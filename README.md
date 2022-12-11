@@ -50,7 +50,7 @@ make superuser
 ```
 
 ### See APIs docs
-See [http://127.0.0.1:8000/api/docs](http://127.0.0.1:8000/api/docs)
+See [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
 ![APIs docs screenshot](https://i.imgur.com/PnnrX91.png)
 
 
