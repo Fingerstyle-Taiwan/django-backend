@@ -20,7 +20,7 @@ services:
       - DB_NAME=devdb
       - DB_USER=devuser
       - DB_PASSWORD=devuser
-      - SECRET_KEY=${DJANGO_SECRET_KEY}
+      - SECRET_KEY=changeme
       - ALLOWED_HOSTS=${ALLOWED_HOSTS}
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
       - GOOGLE_SECRET_KEY=${GOOGLE_SECRET_KEY}
