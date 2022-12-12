@@ -1,8 +1,9 @@
-'''
+"""
 Views for artist API.
-'''
+"""
 from rest_framework import mixins
 from rest_framework.generics import GenericAPIView
+
 from artist.serializer import ArtistSerializer
 from core.models import Artist
 
