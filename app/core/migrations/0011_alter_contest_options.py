@@ -6,12 +6,17 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0010_alter_contest_identity_restrictions'),
+        ("core", "0010_alter_contest_identity_restrictions"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='contest',
-            options={'get_latest_by': 'id', 'ordering': ['id'], 'verbose_name': '比賽', 'verbose_name_plural': '比賽'},
+            name="contest",
+            options={
+                "get_latest_by": "id",
+                "ordering": ["id"],
+                "verbose_name": "比賽",
+                "verbose_name_plural": "比賽",
+            },
         ),
     ]

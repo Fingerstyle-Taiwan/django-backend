@@ -1,14 +1,13 @@
-from user.providers.facebook.constants import (
-    PROVIDER_SETTINGS,
-    GET_PROFILE_API,
-)
-import requests
-import hmac
 import hashlib
+import hmac
+
+import requests
+
+from user.providers.facebook.constants import GET_PROFILE_API, PROVIDER_SETTINGS
 
 
 def get_app_secret_key():
-    return PROVIDER_SETTINGS.get('APP', {}).get('secret', '')
+    return PROVIDER_SETTINGS.get("APP", {}).get("secret", "")
 
 
 def compute_appsecret_proof(access_token):
@@ -24,16 +23,18 @@ def get_user_profile(access_token):
     response = requests.get(
         GET_PROFILE_API,
         params={
-            "fields": ",".join([
-                "id",
-                "email",
-                "first_name",
-                "last_name",
-                "middle_name",
-                "name",
-                "name_format",
-                "short_name",
-            ]),
+            "fields": ",".join(
+                [
+                    "id",
+                    "email",
+                    "first_name",
+                    "last_name",
+                    "middle_name",
+                    "name",
+                    "name_format",
+                    "short_name",
+                ]
+            ),
             "access_token": access_token,
             "appsecret_proof": compute_appsecret_proof(access_token),
         },
@@ -43,8 +44,4 @@ def get_user_profile(access_token):
 
 
 def init_profile_to_user(user_profile):
-    return {
-        'is_superuser': False,
-        'is_staff': False,
-        'is_active': True
-    }
+    return {"is_superuser": False, "is_staff": False, "is_active": True}
