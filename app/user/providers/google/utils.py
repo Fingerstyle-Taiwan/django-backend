@@ -1,7 +1,6 @@
-from user.providers.google.constants import (
-    GET_PROFILE_API,
-)
 import requests
+
+from user.providers.google.constants import GET_PROFILE_API
 
 
 def get_user_profile(access_token):
@@ -14,8 +13,4 @@ def get_user_profile(access_token):
 
 
 def init_profile_to_user(user_profile):
-    return {
-        'is_superuser': False,
-        'is_staff': False,
-        'is_active': True
-    }
+    return {"is_superuser": False, "is_staff": False, "is_active": True}
