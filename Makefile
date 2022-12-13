@@ -29,7 +29,7 @@ test:
 	@docker-compose run --rm django-app sh -c "python manage.py test"
 
 lint:
-	@docker-compose run --rm django-app sh -c "black . && flake8"
+	@docker-compose run --rm django-app sh -c "black . && isort . && flake8"
 
 check:
 	make test && make lint

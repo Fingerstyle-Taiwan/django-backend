@@ -10,11 +10,13 @@ urlpatterns = [
     path("<int:pk>/like", views.ContestLikeView.as_view(), name="contest-like"),
     path(
         "<int:pk>/comment",
-        views.ContestCommentListView.as_view(),
-        name="contest-comments-list",
+        views.ContestCommentView.as_view(),
+        name="contest-comments-create",
     ),
     path(
-        "<int:pk>/comment", views.ContestCommentView.as_view(), name="contest-comments"
+        "<int:pk>/comment/list",
+        views.ContestCommentListView.as_view(),
+        name="contest-comments-create",
     ),
     path(
         "comment/<int:pk>",
