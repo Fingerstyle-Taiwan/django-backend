@@ -233,6 +233,12 @@ class Comments(models.Model):
         auto_now=True, verbose_name="更新時間", editable=False
     )
 
+    class Meta:
+        ordering = ["created_at"]
+        verbose_name = "留言"
+        verbose_name_plural = verbose_name
+        get_latest_by = "created_at"
+
 
 class Artist(models.Model):
     """Artist Model."""

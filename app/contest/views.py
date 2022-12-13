@@ -85,14 +85,10 @@ class ContestCommentView(mixins.CreateModelMixin, generics.GenericAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-    def get_contest(self):
-        return Contest.objects.get(id=self.kwargs["pk"])
-
     def post(self, request, *args, **kwargs):
-        contest = self.get_contest()
         user = self.request.user
         content = self.request.data.get("content", "")
-        contest_type = ContentType.objects.get_for_model(contest)
+        contest_type = ContentType.objects.get_for_model(Contest)
         if content.strip() != "":
             comment = Comments.objects.create(
                 user=user,
