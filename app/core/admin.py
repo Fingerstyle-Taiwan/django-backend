@@ -40,10 +40,18 @@ class ContestAdmin(admin.ModelAdmin):
     list_display = ["name", "organizer"]
     inlines = [LikesInline, CommentsInline]
 
+
 @admin.register(models.Comments)
-class UserAdmin(admin.ModelAdmin):
+class CommentsAdmin(admin.ModelAdmin):
     ordering = ["-created_at"]
-    list_display = ["id", "user", "content", "created_at", "updated_at", "content_object"]
+    list_display = [
+        "id",
+        "user",
+        "content",
+        "created_at",
+        "updated_at",
+        "content_object",
+    ]
 
 
 @admin.register(models.User)
