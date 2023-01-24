@@ -36,11 +36,15 @@ class ContestDetailView(mixins.RetrieveModelMixin, generics.GenericAPIView):
 
     def get_queryset(self):
 
-        return Contest.objects.annotate(
-            is_liked=Exists(
-                Likes.objects.filter(user=self.request.user, object_id=OuterRef("pk"))
-            )
-        ).order_by("id")
+        if self.request.user.is_authenticated:
+            return Contest.objects.annotate(
+                is_liked=Exists(
+                    Likes.objects.filter(user=self.request.user, object_id=OuterRef("pk"))
+                )
+            ).order_by("id")
+        else:
+            return self.queryset.filter(id=self.kwargs["pk"])
+
 
 
 class ContestLikeView(mixins.CreateModelMixin, generics.GenericAPIView):
