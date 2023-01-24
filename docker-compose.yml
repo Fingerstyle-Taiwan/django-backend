@@ -22,10 +22,6 @@ services:
       - DB_PASSWORD=devuser
       - SECRET_KEY=changeme
       - ALLOWED_HOSTS=${ALLOWED_HOSTS}
-      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
-      - GOOGLE_SECRET_KEY=${GOOGLE_SECRET_KEY}
-      - FACEBOOK_CLIENT_ID=${FACEBOOK_CLIENT_ID}
-      - FACEBOOK_SECRET_KEY=${FACEBOOK_SECRET_KEY}
       - DJANGO_DEBUG=1
     depends_on:
       - postgres-db
