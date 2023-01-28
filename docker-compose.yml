@@ -22,7 +22,7 @@ services:
       - DB_PASSWORD=devuser
       - SECRET_KEY=changeme
       - ALLOWED_HOSTS=${ALLOWED_HOSTS}
-      - DJANGO_DEBUG=1
+      - DEBUG=${DEBUG}
     depends_on:
       - postgres-db
 

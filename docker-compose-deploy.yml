@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   app:
-    container_name: django_app
+    container_name: app
     build:
       context: .
       dockerfile: Dockerfile
@@ -16,7 +16,7 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
       - SECRET_KEY=${DJANGO_SECRET_KEY}
       - ALLOWED_HOSTS=${ALLOWED_HOSTS}
-      - DJANGO_DEBUG=0
+      - DEBUG=${DEBUG}
     depends_on:
       - db
   db:
@@ -30,7 +30,7 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
   proxy:
-    container_name: nginx-server
+    container_name: proxy
     build:
       context: ./docker/proxy
     restart: always
@@ -49,6 +49,7 @@ services:
       - DOMAIN=${DOMAIN}
 
   certbot:
+    container_name: certbot
     build:
       context: ./docker/certbot
     command: echo "Skipping..."
