@@ -1,6 +1,6 @@
 server {
     listen 8082;
-    server_name  localhost;
+    server_name  ${DOMAIN};
     location /stub_status {
        stub_status on;
        allow 127.0.0.1; #only allow requests from localhost
