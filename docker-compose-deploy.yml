@@ -2,6 +2,7 @@ version: '3.7'
 
 services:
   app:
+    container_name: django_app
     build:
       context: .
       dockerfile: Dockerfile
@@ -19,6 +20,7 @@ services:
     depends_on:
       - db
   db:
+    container_name: postgres-database
     image: postgres:13-alpine
     restart: always
     volumes:
@@ -28,6 +30,7 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
   proxy:
+    container_name: nginx-server
     build:
       context: ./docker/proxy
     restart: always
@@ -77,6 +80,7 @@ services:
       - '9090:9090'
 
   renderer:
+    container_name: grafana-render
     image: grafana/grafana-image-renderer:3.4.2
     environment:
       BROWSER_TZ: Asia/Taipei
@@ -84,8 +88,8 @@ services:
       - '8081:8081'
 
   grafana:
-    image: grafana/grafana:8.2.5
     container_name: grafana
+    image: grafana/grafana:8.2.5
     volumes:
       - ./grafana_data:/var/lib/grafana
     environment:
