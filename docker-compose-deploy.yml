@@ -92,6 +92,7 @@ services:
   grafana:
     container_name: grafana
     image: grafana/grafana:8.2.5
+    user: root
     volumes:
       - ./grafana_data:/var/lib/grafana
     environment:
