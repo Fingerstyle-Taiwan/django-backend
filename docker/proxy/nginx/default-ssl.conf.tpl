@@ -41,12 +41,3 @@ server {
         client_max_body_size 10M;
     }
 }
-
-server {
-    listen 8080;
-    server_name  localhost;
-    location /stub_status {
-       stub_status on;
-       access_log off;
-    }
-}

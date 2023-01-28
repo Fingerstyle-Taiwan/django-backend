@@ -17,11 +17,3 @@ server {
     }
 }
 
-server {
-    listen 8080;
-    server_name  localhost;
-    location /stub_status {
-       stub_status on;
-       access_log off;
-    }
-}
