@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
 from pathlib import Path
+from decouple import config, Csv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,13 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY", "ChangeMe")
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
-ALLOWED_HOSTS.extend(filter(None, os.environ.get("ALLOWED_HOSTS", "").split(",")))
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 
 # Application definition
@@ -87,10 +87,10 @@ WSGI_APPLICATION = "app.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "HOST": os.environ.get("DB_HOST"),
-        "NAME": os.environ.get("DB_NAME"),
-        "USER": os.environ.get("DB_USER"),
-        "PASSWORD": os.environ.get("DB_PASSWORD"),
+        "HOST": config("DB_HOST"),
+        "NAME": config("DB_NAME"),
+        "USER": config("DB_USER"),
+        "PASSWORD": config("DB_PASSWORD"),
     }
 }
 
@@ -148,21 +148,21 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 10,
 }
 
-SOCIAL_PROVIDERS = {
-    "google": {
-        "APP": {
-            "client_id": os.environ.get("GOOGLE_CLIENT_ID"),
-            "secret": os.environ.get("GOOGLE_SECRET_KEY"),
-        }
-    },
-    "facebook": {
-        "VERSION": "v15.0",
-        "APP": {
-            "client_id": os.environ.get("FACEBOOK_CLIENT_ID"),
-            "secret": os.environ.get("FACEBOOK_SECRET_KEY"),
-        },
-    },
-}
+# SOCIAL_PROVIDERS = {
+#     "google": {
+#         "APP": {
+#             "client_id": config("GOOGLE_CLIENT_ID"),
+#             "secret": config("GOOGLE_SECRET_KEY"),
+#         }
+#     },
+#     "facebook": {
+#         "VERSION": "v15.0",
+#         "APP": {
+#             "client_id": config("FACEBOOK_CLIENT_ID"),
+#             "secret": config("FACEBOOK_SECRET_KEY"),
+#         },
+#     },
+# }
 
 CSRF_TRUSTED_ORIGINS = ["https://*.fingerstyletaiwan.com"]
 
