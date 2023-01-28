@@ -65,7 +65,7 @@ services:
   nginx-prometheus-exporter:
     image: nginx/nginx-prometheus-exporter:0.10
     container_name: nginx-prometheus-exporter
-    command: -nginx.scrape-uri http://proxy:80/stub_status
+    command: -nginx.scrape-uri http://proxy:8082/stub_status
     ports:
       - 9113:9113
     depends_on:
@@ -75,7 +75,7 @@ services:
     container_name: prometheus
     volumes:
       - ./prometheus.yaml:/etc/prometheus/prometheus.yaml
-      - ./prometheus_data:/prometheus
+      - prometheus-data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yaml'
     ports:
@@ -94,7 +94,7 @@ services:
     image: grafana/grafana:8.2.5
     user: root
     volumes:
-      - ./grafana_data:/var/lib/grafana
+      - grafana-data:/var/lib/grafana
     environment:
       GF_SECURITY_ADMIN_PASSWORD: pass
       GF_RENDERING_SERVER_URL: http://renderer:8081/render
@@ -111,3 +111,5 @@ volumes:
   certbot-web:
   proxy-dhparams:
   certbot-certs:
+  grafana-data:
+  prometheus-data:
