@@ -3,7 +3,7 @@ server {
     server_name  localhost;
     location /stub_status {
        stub_status on;
-       allow localhost; #only allow requests from localhost
+       allow 127.0.0.1; #only allow requests from localhost
        deny all; #deny all other hosts 
        access_log off;
     }
