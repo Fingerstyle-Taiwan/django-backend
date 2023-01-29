@@ -14,4 +14,5 @@ scrape_configs:
       - targets: ["node-exporter:9100"]
   - job_name: docker-metrics
     static_configs:
-      - targets: ["localhost:9323"]
+    # docker ip address -> ip addr docker0
+      - targets: ["172.17.0.1:9323"]
