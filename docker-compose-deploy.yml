@@ -110,7 +110,7 @@ services:
 
   grafana:
     container_name: grafana
-    image: grafana/grafana:8.2.5
+    image: grafana/grafana:9.3.6
     user: root
     volumes:
       - ./grafana-data:/var/lib/grafana
@@ -130,5 +130,3 @@ volumes:
   certbot-web:
   proxy-dhparams:
   certbot-certs:
-  grafana-data:
-  prometheus-data:
