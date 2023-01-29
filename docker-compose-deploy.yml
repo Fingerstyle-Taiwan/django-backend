@@ -47,6 +47,7 @@ services:
       - certbot-certs:/etc/letsencrypt
     environment:
       - DOMAIN=${DOMAIN}
+      - SERVER_IP=${SERVER_IP}
 
   certbot:
     container_name: certbot
@@ -65,7 +66,9 @@ services:
   nginx-prometheus-exporter:
     image: nginx/nginx-prometheus-exporter:0.10
     container_name: nginx-prometheus-exporter
-    command: -nginx.scrape-uri http://${SERVER_IP}:8082/stub_status
+    command: 
+      - -nginx.scrape-uri 
+      - http://proxy:8082/stub_status
     ports:
       - 9113:9113
     depends_on:
