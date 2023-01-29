@@ -83,7 +83,23 @@ services:
       - '--config.file=/etc/prometheus/prometheus.yaml'
     ports:
       - '9090:9090'
-
+  node-exporter:
+    image: prom/node-exporter:v1.5.0
+    container_name: node-exporter
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+      - '--no-collector.arp'
+      - '--no-collector.netstat'
+      - '--no-collector.netdev'
+      - '--no-collector.softnet'
   renderer:
     container_name: grafana-render
     image: grafana/grafana-image-renderer:3.4.2
