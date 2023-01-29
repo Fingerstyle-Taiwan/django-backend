@@ -78,7 +78,7 @@ services:
     container_name: prometheus
     volumes:
       - ./prometheus.yaml:/etc/prometheus/prometheus.yaml
-      - prometheus-data:/prometheus
+      - ./prometheus-data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yaml'
     ports:
@@ -97,7 +97,7 @@ services:
     image: grafana/grafana:8.2.5
     user: root
     volumes:
-      - grafana-data:/var/lib/grafana
+      - ./grafana-data:/var/lib/grafana
     environment:
       GF_SECURITY_ADMIN_PASSWORD: pass
       GF_RENDERING_SERVER_URL: http://renderer:8081/render
