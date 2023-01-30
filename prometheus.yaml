@@ -11,6 +11,7 @@ scrape_configs:
       - targets: ["nginx-prometheus-exporter:9113"]
   - job_name: node-exporter
     static_configs:
+    # TO-DO change for safe
       - targets: ["node-exporter:9100"]
   - job_name: docker-metrics
     static_configs:

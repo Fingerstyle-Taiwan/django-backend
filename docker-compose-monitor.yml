@@ -20,6 +20,9 @@ services:
       - '--config.file=/etc/prometheus/prometheus.yaml'
     ports:
       - '9090:9090'
+    extra_hosts:
+      - "node-exporter:${SERVER_IP}"
+
   node-exporter:
     image: prom/node-exporter:v1.5.0
     container_name: node-exporter
