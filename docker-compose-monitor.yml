@@ -64,6 +64,7 @@ services:
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
     container_name: cadvisor
+    privileged: true
     ports:
     - 8088:8088
     volumes:
