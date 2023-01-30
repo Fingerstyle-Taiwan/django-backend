@@ -77,6 +77,8 @@ services:
       - /var/lib/dbus/machine-id:/var/lib/dbus/machine-id:ro
     devices:
       - /dev/kmsg:/dev/kmsg
+    cap_add:
+      - CAP_SYS_ADMIN
 
 networks:
   default:
