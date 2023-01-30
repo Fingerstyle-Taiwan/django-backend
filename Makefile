@@ -58,4 +58,6 @@ monitor-up:
 	@docker-compose -f docker-compose-monitor.yml up 
 monitor-down:
 	@docker-compose -f docker-compose-monitor.yml down
+certbot-init:
+	@docker-compose -f docker-compose-deploy.yml run --rm certbot /opt/certify-init.sh
  
