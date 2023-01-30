@@ -54,3 +54,8 @@ prod-rebuild:
 
 prod-re-up:
 	@docker-compose -f docker-compose-deploy.yml up --no-deps -d app
+monitor-up:
+	@docker-compose -f docker-compose-monitor.yml up 
+monitor-down:
+	@docker-compose -f docker-compose-monitor.yml down
+ 
