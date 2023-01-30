@@ -73,8 +73,8 @@ services:
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
       - /dev/disk/:/dev/disk:ro \
-      # - /etc/machine-id:/etc/machine-id:ro
-      # - /var/lib/dbus/machine-id:/var/lib/dbus/machine-id:ro
+      - /etc/machine-id:/etc/machine-id:ro
+      - /var/lib/dbus/machine-id:/var/lib/dbus/machine-id:ro
     devices:
       - /dev/kmsg:/dev/kmsg
 
