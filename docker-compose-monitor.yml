@@ -4,6 +4,8 @@ services:
   nginx-prometheus-exporter:
     image: nginx/nginx-prometheus-exporter:0.10
     container_name: nginx-prometheus-exporter
+    healthcheck:
+      test: ["curl", "--fail", "http://proxy:8082/stub_status"]
     command: 
       - -nginx.scrape-uri 
       - http://proxy:8082/stub_status
@@ -61,6 +63,16 @@ services:
       - renderer
     ports:
       - 3000:3000
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    ports:
+    - 8088:8088
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
 
 networks:
   default:
