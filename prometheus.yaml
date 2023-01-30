@@ -16,3 +16,6 @@ scrape_configs:
     static_configs:
     # docker ip address -> ip addr docker0
       - targets: ["172.17.0.1:9323"]
+  - job_name: cadvisor-metrics
+    static_configs:
+      - targets: ["cadvisor:8088"]

@@ -4,8 +4,6 @@ services:
   nginx-prometheus-exporter:
     image: nginx/nginx-prometheus-exporter:0.10
     container_name: nginx-prometheus-exporter
-    healthcheck:
-      test: ["curl", "--fail", "http://proxy:8082/stub_status"]
     command: 
       - -nginx.scrape-uri 
       - http://proxy:8082/stub_status
