@@ -69,11 +69,12 @@ services:
       - 8088:8088
     volumes:
       - /:/rootfs:ro
-      - /var/run:/var/run:rw
+      - /var/run:/var/run:ro
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
-      - /etc/machine-id:/etc/machine-id:ro
-      - /var/lib/dbus/machine-id:/var/lib/dbus/machine-id:ro
+      - /dev/disk/:/dev/disk:ro \
+      # - /etc/machine-id:/etc/machine-id:ro
+      # - /var/lib/dbus/machine-id:/var/lib/dbus/machine-id:ro
     devices:
       - /dev/kmsg:/dev/kmsg
 
