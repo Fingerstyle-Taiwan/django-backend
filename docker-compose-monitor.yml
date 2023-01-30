@@ -9,8 +9,6 @@ services:
       - http://proxy:8082/stub_status
     ports:
       - 9113:9113
-    depends_on:
-      - proxy
   prometheus:
     image: prom/prometheus:v2.35.0
     container_name: prometheus
