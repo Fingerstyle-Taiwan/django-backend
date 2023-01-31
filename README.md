@@ -24,29 +24,29 @@ cd django-backend
 
 ### Build docker container and apps
 ```console
-make build
+make dev/build
 ```
 
 ### Start docker apps (Django and PostgreSQL)
 This command will launch django server and database.
 See [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin)
 ```console
-make up
+make dev/up
 ```
 If you get a database error after **make up**, just try the code below, it will remove the database from disk, then rebuild volume again.
 ```console
-make down
+make dev/down
 ```
 ```console
-make database-init
+make dev/database-init
 ```
 ```console
-make up
+make dev/up
 ```
 
 ### Setup a superuser for development
 ```console
-make superuser
+make dev/superuser
 ```
 
 ### See APIs docs
@@ -56,21 +56,51 @@ See [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
 
 ### Stop docker apps (Django and PostgreSQL)
 ```console
-make down
+make dev/down
 ```
 
 ## Usage
+
+### make commands help
+```console
+make help
+```
+```console
+Available targets:
+
+  certbot/init                        SSL certification initialization
+  dev/build                           Build docker image for development
+  dev/check                           Run test and lint
+  dev/create-app                      Create a Dajango Application used by "make dev/create-app NAME=YouAppNameHere"
+  dev/database-init                   Initialization for docker volumes
+  dev/down                            Stop development containers
+  dev/lint                            Run code style tool
+  dev/migrate                         Migrate for database
+  dev/migrate-init                    Initialize migrations for database
+  dev/migrations                      Make migrations for database
+  dev/superuser                       Create a superuser
+  dev/test                            Run unit test 
+  dev/up                              Run development containers
+  monitor/down                        Stop monitor service containers
+  monitor/up                          Start monitor service containers
+  prod/down                           Stop production containers 
+  prod/logs                           Peek logs 
+  prod/rebuild                        Rebuild Django app image
+  prod/restart                        Rebuild Django app
+  prod/superuser                      Create a superuser
+  prod/up                             Run production containers
+```
 
 ### Lint and test (IMPORTANT:do this before you git push, github actions will auto lint and test)
 
 - lint
 ```console
-make lint
+make dev/lint
 ```
 
 - test
 ```console
-make test
+make dev/test
 ```
 
 
@@ -79,22 +109,22 @@ make test
 
 - create a django app
 ```console
- make create-app NAME=YouAppName
+ make dev/create-app NAME=YouAppName
 ```
 
 - create superuser
 ```console
-make superuser
+make dev/superuser
 ```
 
 - migrations
 ```console
-make migrations
+make dev/migrations
 ```
 
 - migrate
 ```console
-make migrate
+make dev/migrate
 ```
 
 ### Git commit
