@@ -42,7 +42,7 @@ class ContestAdmin(admin.ModelAdmin):
 
 
 @admin.register(models.Comments)
-class UserAdmin(admin.ModelAdmin):
+class CommentsAdmin(admin.ModelAdmin):
     ordering = ["-created_at"]
     list_display = [
         "id",

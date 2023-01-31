@@ -10,3 +10,4 @@ uwsgi>=2.0.20,<2.1
 django-cors-headers==3.13.0
 django-taggit==3.0.0
 six==1.15.0
+python-decouple==3.7
