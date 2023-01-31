@@ -77,6 +77,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=255, verbose_name="暱稱")
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    is_verifyed = models.BooleanField(default=False)
 
     # liked_contest = models.ManyToManyField('Contest', through='ContestLikes')
 

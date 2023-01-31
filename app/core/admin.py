@@ -40,6 +40,7 @@ class ContestAdmin(admin.ModelAdmin):
     list_display = ["name", "organizer"]
     inlines = [LikesInline, CommentsInline]
 
+
 @admin.register(models.Comments)
 class UserAdmin(admin.ModelAdmin):
     ordering = ["-created_at"]
@@ -62,6 +63,7 @@ class UserAdmin(BaseUserAdmin):
                     "is_active",
                     "is_staff",
                     "is_superuser",
+                    "is_verifyed",
                 )
             },
         ),
@@ -81,6 +83,7 @@ class UserAdmin(BaseUserAdmin):
                     "is_active",
                     "is_staff",
                     "is_superuser",
+                    "is_verifyed",
                 ),
             },
         ),
