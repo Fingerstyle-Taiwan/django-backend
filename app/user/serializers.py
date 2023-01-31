@@ -8,14 +8,14 @@ import string
 from datetime import datetime
 
 from django.conf import settings
-from django.core.mail import EmailMessage
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 from django.utils.translation import gettext as _
 from rest_framework import serializers
-from django.template.loader import render_to_string
-from django.utils.http import urlsafe_base64_encode
-from django.utils.encoding import force_bytes
 
 from core.models import Profile
 from user.providers.facebook.constants import PROVIDER_NAME as FACEBOOK_PROVIDER_NAME
@@ -29,22 +29,25 @@ def get_secret_random_string(length):
 
 
 def send_smtp_verify_mail(user, request):
-    mail_subject = 'Active your email.'
+    mail_subject = "Active your email."
     current_site = get_current_site(request)
-    
-    mail_message = render_to_string('verify_email.html', {
-        'user': user,
-        'domain': current_site,
-        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-        'token':generate_token.make_token(user)
-    })
+
+    mail_message = render_to_string(
+        "verify_email.html",
+        {
+            "user": user,
+            "domain": current_site,
+            "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+            "token": generate_token.make_token(user),
+        },
+    )
 
     mail_recipient = user.email
     email = EmailMessage(
-        mail_subject, 
-        mail_message,              
+        mail_subject,
+        mail_message,
         settings.EMAIL_HOST_USER,  # sender
-        to=[mail_recipient]
+        to=[mail_recipient],
     )
 
     email.fail_silently = False
@@ -84,9 +87,8 @@ class UserSerializer(serializers.ModelSerializer):
         user = get_user_model().objects.create_user(**validated_data)
         request = self.context.get("request")
         send_smtp_verify_mail(user, request)
-        
-        return user
 
+        return user
 
     def update(self, instance, validated_data):
         """Update and return user."""
