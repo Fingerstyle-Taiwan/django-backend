@@ -9,7 +9,6 @@ from core.models import Artist
 
 
 class ListArtists(mixins.ListModelMixin, GenericAPIView):
-
     serializer_class = ArtistSerializer
     queryset = Artist.objects.all()
 

@@ -5,7 +5,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("taggit", "0005_auto_20220424_2025"),
         ("core", "0013_alter_artist_options"),

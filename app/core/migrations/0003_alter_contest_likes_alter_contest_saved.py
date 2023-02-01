@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("core", "0002_remove_contest_date_contest_cover_image_and_more"),
     ]

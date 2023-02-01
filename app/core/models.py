@@ -154,7 +154,6 @@ class ChoiceArrayField(ArrayField):
 
 
 class Contest(models.Model):
-
     name = models.CharField(max_length=255, null=True, blank=False, verbose_name="比賽名稱")
     # 2022-10-18 request-contest-detail-fields -> remove date
     organizer = models.CharField(

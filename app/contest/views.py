@@ -16,7 +16,6 @@ from core.permissions import IsOwnerOrReadOnly
 
 
 class ContestView(generics.ListAPIView):
-
     queryset = Contest.objects.all()
     serializer_class = ContestSerializer
     search_fields = ["name"]
@@ -35,7 +34,6 @@ class ContestDetailView(mixins.RetrieveModelMixin, generics.GenericAPIView):
         return self.retrieve(request, *args, **kwargs)
 
     def get_queryset(self):
-
         if self.request.user.is_authenticated:
             return Contest.objects.annotate(
                 is_liked=Exists(

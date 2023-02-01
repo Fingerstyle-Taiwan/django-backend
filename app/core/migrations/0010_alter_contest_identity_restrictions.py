@@ -6,7 +6,6 @@ import core.models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("core", "0009_contestlikes_created_at_contestlikes_updated_at"),
     ]

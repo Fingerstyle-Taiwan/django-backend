@@ -70,11 +70,19 @@ def verify_email(request, uidb64, token):
     except Exception:
         user = None
 
+    if user is None:
+        return Response("User not found", status=status.HTTP_400_BAD_REQUEST)
+
+    if user.is_verifyed:
+        return Response(
+            "Email has already been verified.", status=status.HTTP_400_BAD_REQUEST
+        )
+
     if user and generate_token.check_token(user, token):
         user.is_verifyed = True
         user.save()
 
         # return redirect('home')
         return Response("Thank you for your email confirmation.")
-    else:
-        return Response("Activation link is invalid!")
+
+    return Response("Activation link is invalid!")
