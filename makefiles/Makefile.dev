@@ -1,0 +1,51 @@
+COMPOSE = @docker-compose
+EXEC = $(COMPOSE) run --rm django-app sh -c
+
+## Build docker image for development
+dev/build: deps
+	$(COMPOSE) build
+
+## Run development containers
+dev/up: .env
+	$(COMPOSE) up
+
+## Stop development containers
+dev/down:
+	$(COMPOSE) down
+
+## Create a superuser
+dev/superuser:
+	$(EXEC) "python3 manage.py createsuperuser"
+
+## Create a Dajango Application used by "make dev/create-app NAME=YouAppNameHere"
+dev/create-app:
+	$(EXEC) "django-admin startapp $(NAME)"
+
+## Make migrations for database
+dev/migrations:
+	$(EXEC) "python manage.py makemigrations"
+
+## Initialize migrations for database
+dev/migrate-init:
+	$(EXEC) "python manage.py migrate --fake-initial"
+
+## Migrate for database
+dev/migrate:
+	$(EXEC) "python manage.py migrate"
+
+## Initialization for docker volumes
+dev/database-init:
+	@docker-compose down --volumes
+
+## Run unit test 
+dev/test:
+	$(EXEC) "python manage.py test"
+
+## Run code style tool
+dev/lint:
+	$(EXEC) "black . && isort . && flake8"
+
+## Run test and lint
+dev/check:
+	make dev/test && make dev/lint
+

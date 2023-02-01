@@ -1,0 +1,19 @@
+DEPLOY_COMPOSE = @docker-compose -f docker-compose-deploy.yml
+## Run production containers
+prod/up:
+	$(DEPLOY_COMPOSE) up -d
+## Create a superuser
+prod/superuser:
+	$(DEPLOY_COMPOSE) run --rm app sh -c "python3 manage.py createsuperuser"
+## Stop production containers 
+prod/down:
+	$(DEPLOY_COMPOSE) down
+## Peek logs 
+prod/logs:
+	$(DEPLOY_COMPOSE) logs
+## Rebuild Django app image
+prod/rebuild:
+	$(DEPLOY_COMPOSE) build app
+## Rebuild Django app
+prod/restart:
+	$(DEPLOY_COMPOSE) up --no-deps -d app

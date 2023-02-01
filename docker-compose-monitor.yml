@@ -1,0 +1,93 @@
+version: '3.7'
+
+services:
+  nginx-prometheus-exporter:
+    image: nginx/nginx-prometheus-exporter:0.10
+    container_name: nginx-prometheus-exporter
+    command: 
+      - -nginx.scrape-uri 
+      - http://proxy:8082/stub_status
+    ports:
+      - 9113:9113
+  prometheus:
+    image: prom/prometheus:v2.35.0
+    container_name: prometheus
+    user: root
+    volumes:
+      - ./prometheus.yaml:/etc/prometheus/prometheus.yaml
+      - ./prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yaml'
+    ports:
+      - '9090:9090'
+    extra_hosts:
+      - node-exporter:${SERVER_IP}
+      - host.docker.internal:host-gateway
+
+  node-exporter:
+    image: prom/node-exporter:v1.5.0
+    container_name: node-exporter
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+      - '--no-collector.arp'
+      - '--no-collector.netstat'
+      - '--no-collector.netdev'
+      - '--no-collector.softnet'
+  renderer:
+    container_name: grafana-render
+    image: grafana/grafana-image-renderer:3.4.2
+    environment:
+      BROWSER_TZ: Asia/Taipei
+    ports:
+      - 8081:8081
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:9.3.6
+    user: root
+    volumes:
+      - ./grafana-data:/var/lib/grafana
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: pass
+      GF_RENDERING_SERVER_URL: http://renderer:8081/render
+      GF_RENDERING_CALLBACK_URL: http://grafana:3000/
+      GF_LOG_FILTERS: rendering:debug
+    depends_on:
+      - prometheus
+      - renderer
+    ports:
+      - 3000:3000
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.46.0
+    container_name: cadvisor
+    privileged: true
+    command: 
+      - '-port=8088'
+    ports:
+      - 8088:8088
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro 
+      - /etc/machine-id:/etc/machine-id:ro
+      - /var/lib/dbus/machine-id:/var/lib/dbus/machine-id:ro
+    devices:
+      - /dev/kmsg:/dev/kmsg
+    cap_add:
+      - CAP_SYS_ADMIN
+
+networks:
+  default:
+      external:
+          name: networking

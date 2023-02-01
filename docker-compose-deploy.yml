@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   app:
-    container_name: django_app
+    container_name: app
     build:
       context: .
       dockerfile: Dockerfile
@@ -16,7 +16,7 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
       - SECRET_KEY=${DJANGO_SECRET_KEY}
       - ALLOWED_HOSTS=${ALLOWED_HOSTS}
-      - DJANGO_DEBUG=0
+      - DEBUG=${DEBUG}
     depends_on:
       - db
   db:
@@ -30,7 +30,7 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
   proxy:
-    container_name: nginx-server
+    container_name: proxy
     build:
       context: ./docker/proxy
     restart: always
@@ -47,8 +47,10 @@ services:
       - certbot-certs:/etc/letsencrypt
     environment:
       - DOMAIN=${DOMAIN}
+      - SERVER_IP=${SERVER_IP}
 
   certbot:
+    container_name: certbot
     build:
       context: ./docker/certbot
     command: echo "Skipping..."
@@ -60,52 +62,14 @@ services:
       - certbot-certs:/etc/letsencrypt/
     depends_on:
       - proxy
-      
-  nginx-prometheus-exporter:
-    image: nginx/nginx-prometheus-exporter:0.10
-    container_name: nginx-prometheus-exporter
-    command: -nginx.scrape-uri http://proxy:80/stub_status
-    ports:
-      - 9113:9113
-    depends_on:
-      - proxy
-  prometheus:
-    image: prom/prometheus:v2.35.0
-    container_name: prometheus
-    volumes:
-      - ./prometheus.yaml:/etc/prometheus/prometheus.yaml
-      - ./prometheus_data:/prometheus
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yaml'
-    ports:
-      - '9090:9090'
-
-  renderer:
-    container_name: grafana-render
-    image: grafana/grafana-image-renderer:3.4.2
-    environment:
-      BROWSER_TZ: Asia/Taipei
-    ports:
-      - 8081:8081
-
-  grafana:
-    container_name: grafana
-    image: grafana/grafana:8.2.5
-    volumes:
-      - ./grafana_data:/var/lib/grafana
-    environment:
-      GF_SECURITY_ADMIN_PASSWORD: pass
-      GF_RENDERING_SERVER_URL: http://renderer:8081/render
-      GF_RENDERING_CALLBACK_URL: http://grafana:3000/
-      GF_LOG_FILTERS: rendering:debug
-    depends_on:
-      - prometheus
-      - renderer
-    ports:
-      - 3000:3000
 volumes:
   static-data:
   postgres-data:
   certbot-web:
   proxy-dhparams:
   certbot-certs:
+
+networks:
+    default:
+        external:
+            name: networking
