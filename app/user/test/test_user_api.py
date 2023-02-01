@@ -5,13 +5,16 @@ Tests for user API.
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 from rest_framework import status
 from rest_framework.test import APIClient
+
+from user.token import generate_token
 
 CREATE_USER_URL = reverse("user:create")
 TOKEN_URL = reverse("user:token")
 ME_URL = reverse("user:me")
-VERIFY_URL = reverse("user:verify_email")
 
 
 def create_user(**params):
@@ -103,6 +106,59 @@ class PublicUserApiTests(TestCase):
         res = self.client.get(ME_URL)
 
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_verify_user_verifyed(self):
+        """Test verify user is verify."""
+        payload = {
+            "email": "test@example.com",
+            "password": "testpass123",
+            "name": "Test Name",
+        }
+        create_user(**payload)
+
+        user = get_user_model().objects.get(email=payload["email"])
+        uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+        token = generate_token.make_token(user)
+        VERIFY_URL = reverse(
+            "user:verify_email", kwargs={"uidb64": uidb64, "token": token}
+        )
+        res = self.client.get(VERIFY_URL)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+
+        user = get_user_model().objects.get(email=payload["email"])
+        self.assertTrue(user.is_verifyed)
+
+    def test_verify_user_not_existed(self):
+        """Test verify user isn't existed."""
+        uidb64 = "999"
+        token = "testtoken"
+        VERIFY_URL = reverse(
+            "user:verify_email", kwargs={"uidb64": uidb64, "token": token}
+        )
+        res = self.client.get(VERIFY_URL)
+
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_verify_user_already_verifyed(self):
+        """Test verify user already verify."""
+        payload = {
+            "email": "test@example.com",
+            "password": "testpass123",
+            "name": "Test Name",
+        }
+        create_user(**payload)
+
+        user = get_user_model().objects.get(email=payload["email"])
+        uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+        token = generate_token.make_token(user)
+        VERIFY_URL = reverse(
+            "user:verify_email", kwargs={"uidb64": uidb64, "token": token}
+        )
+
+        res = self.client.get(VERIFY_URL)  # first verify
+        res = self.client.get(VERIFY_URL)  # second verify
+
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
 
 
 class PrivateUserApiTest(TestCase):
