@@ -61,7 +61,7 @@ def exchange_token(request):
     return Response(data={"access": token.key})
 
 
-@api_view(["POST"])
+@api_view(["GET"])
 def verify_email(request, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
