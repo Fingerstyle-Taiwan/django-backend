@@ -1,39 +1,33 @@
 
 
-## 描述
+## Description
 
-請附上更改的摘要以及已修復的問題。還請包括相關的動機和背景。列出此更改所需的所有依賴項。
+Please include a summary of the changes and what issues were fixed. Please also include relevant motivation and context. List all dependencies required for this change.
 
 Fixes # (issue)
 
-## 變更類型
+## Change Type
 
-請刪除不相關的選項。
+*Please remove irrelevant options.*
 
-- [ ] 錯誤修復（修復問題的非破壞性更改）
-- [ ] 新功能（增加功能的非破壞性更改
-- [ ] 重大更改（可能導致現有功能無法按預期工作的修復或功能）
-- [ ] 文檔更新
+- [ ] Bug fixes (non-breaking changes that fix issues)
+- [ ] New features (non-breaking changes that add functionality
+- [ ] breaking changes (fixes or features that may cause existing features to not work as expected)
+- [ ] Documentation update
 
-## 這是如何測試的?
+## How is this tested?
 
 - [ ] Test A
 - [ ] Test B
 
-**測試配置**:
-* 版本:
-* 硬體:
-* 工具:
-* SDK:
+## Self-Checklist:
 
-## 檢查清單:
-
-- [ ] 我的程式碼遵循這個項目的風格指南
-- [ ] 我對自己的程式碼進行了自我審查
-- [ ] 我已經註解了我的程式碼，特別是在難以理解的地方
-- [ ] 我對文件做了相對應的修改
-- [ ] 我的更改不會產生新的警告
-- [ ] 我添加了測試來證明我的修正或功能是有效的
-- [ ] 新的和現有的單元測試在我的開發環境是通過的
-- [ ] 任何相關的更改都已合併並發佈到依賴的模組中
-- [ ] 我檢查了我的程式碼並更正了所有拼寫錯誤
+- [ ] My code follows this project's style guide
+- [ ] I self-reviewed my code
+- [ ] I have commented my code, especially where it is difficult to understand
+- [ ] I made corresponding changes to the file
+- [ ] My changes will not generate new warnings
+- [ ] I added tests to prove that my fix or feature works
+- [ ] New and existing unit tests pass in my development environment
+- [ ] Any relevant changes have been merged and published to dependent mods
+- [ ] I reviewed my code and corrected any typos
