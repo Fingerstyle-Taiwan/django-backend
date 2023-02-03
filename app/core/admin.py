@@ -70,6 +70,7 @@ class UserAdmin(BaseUserAdmin):
                     "is_active",
                     "is_staff",
                     "is_superuser",
+                    "is_verifyed",
                 )
             },
         ),
@@ -89,6 +90,7 @@ class UserAdmin(BaseUserAdmin):
                     "is_active",
                     "is_staff",
                     "is_superuser",
+                    "is_verifyed",
                 ),
             },
         ),

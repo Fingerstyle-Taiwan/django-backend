@@ -7,7 +7,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("core", "0005_contestlikes_contest_likes_profile_liked_contest_and_more"),
     ]

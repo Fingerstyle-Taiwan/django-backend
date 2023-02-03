@@ -11,7 +11,6 @@ import core.models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("taggit", "0005_auto_20220424_2025"),
         ("core", "0016_comments"),
