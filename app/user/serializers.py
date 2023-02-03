@@ -9,7 +9,6 @@ from datetime import datetime
 
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model
-from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.dispatch import receiver
 from django.template.loader import render_to_string
@@ -31,18 +30,20 @@ def get_secret_random_string(length):
     return "".join(secrets.choice(alphabet) for i in range(length))
 
 
-def send_smtp_verify_mail(user, request):
+def send_smtp_verify_mail(user):
     mail_subject = "Active your email."
-    current_site = get_current_site(request)
+
+    current_site = settings.EMAIL_CONTENT_DOMAIN
+    uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+    token = generate_token.make_token(user)
+    verify_mail_path = reverse(
+        "user:verify_email", kwargs={"uidb64": uidb64, "token": token}
+    )
+    verify_mail_url = f"{current_site}{verify_mail_path}"
 
     mail_message = render_to_string(
         "verify_email.html",
-        {
-            "user": user,
-            "domain": current_site,
-            "uid": urlsafe_base64_encode(force_bytes(user.pk)),
-            "token": generate_token.make_token(user),
-        },
+        {"user": user, "domain": current_site, "verify_mail_url": verify_mail_url},
     )
 
     mail_recipient = user.email
@@ -75,6 +76,13 @@ def password_reset_token_created(
     :param kwargs:
     :return:
     """
+
+    current_site = settings.EMAIL_CONTENT_DOMAIN
+    reset_password_path = reverse("user:password_reset:reset-password-confirm")
+    reset_password_url = (
+        f"{current_site}{reset_password_path}?token={reset_password_token.key}"
+    )
+
     mail_subject = "Reset your password."
     mail_message = render_to_string(
         "user_reset_password.html",
@@ -82,12 +90,7 @@ def password_reset_token_created(
             "current_user": reset_password_token.user,
             "username": reset_password_token.user.name,
             "email": reset_password_token.user.email,
-            "reset_password_url": "{}?token={}".format(
-                instance.request.build_absolute_uri(
-                    reverse("user:password_reset:reset-password-confirm")
-                ),
-                reset_password_token.key,
-            ),
+            "reset_password_url": reset_password_url,
         },
     )
 
@@ -135,8 +138,7 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         """Create and return a user with encrypted password."""
         user = get_user_model().objects.create_user(**validated_data)
-        request = self.context.get("request")
-        send_smtp_verify_mail(user, request)
+        send_smtp_verify_mail(user)
 
         return user
 

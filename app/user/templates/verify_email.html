@@ -6,7 +6,7 @@ Hi {{user.username}}
 Please use the link below to verify your account.
 
 
-http://{{domain}}{% url 'user:verify_email' uidb64=uid token=token %}
+{{ verify_mail_url }}
 
 
 {% endautoescape %}
