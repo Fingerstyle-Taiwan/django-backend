@@ -1,6 +1,6 @@
 default: help
 
-deps:
+deps: .env
 	@which docker-compose
 
 .env:
