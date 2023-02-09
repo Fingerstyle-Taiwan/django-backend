@@ -11,7 +11,7 @@ from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model
 from django.core.mail import EmailMessage
 from django.dispatch import receiver
-from django.template.loader import render_to_string
+from django.template.loader import render_to_string, get_template
 from django.urls import reverse
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
@@ -31,7 +31,7 @@ def get_secret_random_string(length):
 
 
 def send_smtp_verify_mail(user):
-    mail_subject = "Active your email."
+    
 
     current_site = settings.EMAIL_CONTENT_DOMAIN
     uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
@@ -40,26 +40,20 @@ def send_smtp_verify_mail(user):
         "user:verify_email", kwargs={"uidb64": uidb64, "token": token}
     )
     verify_mail_url = f"{current_site}{verify_mail_path}"
-
-    mail_message = render_to_string(
-        "verify_email.html",
-        {"user": user, "domain": current_site, "verify_mail_url": verify_mail_url},
-    )
+    mail_subject = f"感謝{user.name}註冊，驗證信箱完成 Fingerstyle Taiwan註冊！"
+    message = get_template("verify_email.html").render(({
+        "user": user, "verify_mail_url": verify_mail_url
+    }))
 
     mail_recipient = user.email
-    email = EmailMessage(
-        # title:
-        mail_subject,
-        # message:
-        mail_message,
-        # from:
-        settings.EMAIL_HOST_USER,
-        # to:
+    mail = EmailMessage(
+        subject=mail_subject,
+        body=message,
+        from_email=settings.EMAIL_HOST_USER,
         to=[mail_recipient],
     )
-
-    email.fail_silently = False
-    email.send()
+    mail.content_subtype = "html"
+    return mail.send()
 
 
 @receiver(reset_password_token_created)
@@ -83,27 +77,22 @@ def password_reset_token_created(
         f"{current_site}{reset_password_path}?token={reset_password_token.key}"
     )
 
-    mail_subject = "Reset your password."
-    mail_message = render_to_string(
-        "user_reset_password.html",
-        {
-            "current_user": reset_password_token.user,
-            "username": reset_password_token.user.name,
-            "email": reset_password_token.user.email,
-            "reset_password_url": reset_password_url,
-        },
-    )
+    mail_subject = f"{reset_password_token.user.name} 忘記密碼了嗎？請在這裡重新設定密碼"
+    message = get_template("user_reset_password.html").render(({
+        "reset_password_url": reset_password_url
+    }))
 
     msg = EmailMessage(
         # title:
         mail_subject,
         # message:
-        mail_message,
+        message,
         # from:
         settings.EMAIL_HOST_USER,
         # to:
         [reset_password_token.user.email],
     )
+    msg.content_subtype = "html"
     msg.send()
 
 
